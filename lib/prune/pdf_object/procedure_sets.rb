@@ -2,7 +2,7 @@
 
 require "pdf_object/base_object"
 
-module RubyPdfBuilder
+module Prune 
   module PdfObject
     class ProcedureSets < BaseObject
       def initialize(pdf)

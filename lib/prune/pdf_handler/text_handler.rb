@@ -3,7 +3,7 @@
 require "kconv"
 require "pdf_handler/base_handler"
 
-module RubyPdfBuilder
+module Prune 
   module PdfHandler
     class TextHandler < BaseHandler
       def write(text, font, font_size, pos = [0,0])

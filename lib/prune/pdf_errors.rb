@@ -1,6 +1,6 @@
 # coding:utf-8
 
-module RubyPdfBuilder
+module Prune 
   class UnknownEncodingError < StandardError; end
   class ObjectNotRegisteredError < StandardError; end
   class BlockNotGivenError < StandardError; end

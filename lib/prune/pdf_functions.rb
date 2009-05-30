@@ -2,7 +2,7 @@
 
 require "pdf_errors"
 
-module RubyPdfBuilder
+module Prune
   # Convert millimeters to points
   def mm2pt(mm)
     mm * 72 / 25.4

@@ -2,7 +2,7 @@
 
 require "pdf_type/pdf_base_type"
 
-module RubyPdfBuilder
+module Prune
   module PdfType
     class PdfArray < PdfBaseType
       SLICE = 10

@@ -3,7 +3,7 @@
 require "pdf_font/font_base"
 require "pdf_object/font"
 
-module RubyPdfBuilder
+module Prune 
   module PdfFont
     class HelveticaBoldOblique < FontBase
       include PdfObject

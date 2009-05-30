@@ -4,7 +4,7 @@ require "pdf_handler/base_handler"
 require "pdf_handler/draw_handler"
 require "pdf_handler/text_handler"
 
-module RubyPdfBuilder
+module Prune 
   module PdfHandler
     class TableHandler < BaseHandler
       attr_accessor :height

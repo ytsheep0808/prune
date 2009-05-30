@@ -2,7 +2,7 @@
 
 require "pdf_errors"
 
-module RubyPdfBuilder
+module Prune
   module PdfType
     class PdfBaseType
       # インデント

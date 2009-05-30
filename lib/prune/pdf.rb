@@ -5,7 +5,7 @@ require "pdf_types"
 require "pdf_objects"
 require "pdf_errors"
 
-module RubyPdfBuilder
+module Prune
   class Pdf
     include PdfObject
     include PdfType

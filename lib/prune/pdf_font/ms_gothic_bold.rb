@@ -4,7 +4,7 @@ require "pdf_font/font_base"
 require "pdf_objects"
 require "pdf_types"
 
-module RubyPdfBuilder
+module Prune 
   module PdfFont
     class MsGothicBold < FontBase
       include PdfType

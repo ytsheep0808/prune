@@ -3,7 +3,7 @@
 require "pdf_types"
 require "pdf_errors"
 
-module RubyPdfBuilder
+module Prune
   module PdfObject
     class BaseObject
       include PdfType

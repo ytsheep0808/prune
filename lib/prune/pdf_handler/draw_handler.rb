@@ -3,7 +3,7 @@
 require "pdf_handler/base_handler"
 require "pdf_errors"
 
-module RubyPdfBuilder
+module Prune 
   module PdfHandler
     class DrawHandler < BaseHandler
       LINE_CAP = {

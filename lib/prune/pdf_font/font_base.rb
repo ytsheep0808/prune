@@ -2,7 +2,7 @@
 
 require "pdf_errors"
 
-module RubyPdfBuilder
+module Prune 
   module PdfFont
     class FontBase
       attr_reader :font_objects, :main_object

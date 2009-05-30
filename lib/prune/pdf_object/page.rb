@@ -4,7 +4,7 @@ require "pdf_object/base_object"
 require "pdf_handlers"
 require "pdf_fonts"
 
-module RubyPdfBuilder
+module Prune 
   module PdfObject
     class Page < BaseObject
       include PdfHandler

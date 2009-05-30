@@ -2,7 +2,7 @@
 
 require "pdf_errors"
 
-module RubyPdfBuilder
+module Prune 
   module PdfHandler
     class BaseHandler
       attr_reader :lines

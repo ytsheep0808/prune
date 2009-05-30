@@ -2,7 +2,7 @@
 
 require "pdf_font/font_base"
 
-module RubyPdfBuilder
+module Prune 
   module PdfFont
     class Helvetica < FontBase
       include PdfObject

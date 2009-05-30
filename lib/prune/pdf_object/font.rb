@@ -2,7 +2,7 @@
 
 require "pdf_object/base_object"
 
-module RubyPdfBuilder
+module Prune 
   module PdfObject
     class Font < BaseObject
       attr_reader :name

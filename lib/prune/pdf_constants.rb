@@ -1,6 +1,6 @@
 # coding:utf-8
 
-module RubyPdfBuilder
+module Prune
   # アプリケーション名
   APPLICATION = self.name
   # 改行コード
