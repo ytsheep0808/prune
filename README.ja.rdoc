@@ -1,16 +1,16 @@
-= Prune
+= Prune (プルーン)
 
 * http://wiki.github.com/ytsheep0808/prune
 
 == DESCRIPTION:
 
-Prune is a library to build pdf documents in Ruby.
+Prune(プルーン)はPDF文書をRubyで作成するためのライブラリです。
 
 == FEATURES:
 
-* Supports full japanese pdf.
-* Specialized for texts and tables.
-* Doesn't support complicated pdf features such as images and multimedias.
+* 日本語をフルサポートしています。
+* 文書と表組みの処理に特化しています。
+* 画像やマルチメディア等の複雑なPDFの機能はサポートしていません。
 
 == SYNOPSIS:
 
