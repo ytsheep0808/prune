@@ -6,7 +6,7 @@ require "pdf_objects"
 require "pdf_errors"
 
 module Prune
-  class Pdf
+  class Document
     include PdfObject
     include PdfType
 
