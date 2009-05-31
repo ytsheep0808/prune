@@ -32,6 +32,16 @@ module Prune
           end
         }
       end
+
+      def title=(title)
+        raise unless title.is_a?(String)
+        @content[:Title] = title
+      end
+
+      def author=(author)
+        raise unless author.is_a?(String)
+        @content[:Author] = author
+      end
     end
   end
 end

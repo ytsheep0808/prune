@@ -12,6 +12,13 @@ module Prune
       # set title
       def title(title)
         puts self.class.to_s + ".title=" + title
+        @document.info.title = title
+      end
+
+      # set author
+      def author(author)
+        puts self.class.to_s + ".author=" + author
+        @document.info.author = author
       end
     end
   end

@@ -1,8 +1,6 @@
 # coding:utf-8
 
 module Prune
-  # アプリケーション名
-  APPLICATION = self.name
   # 改行コード
   LF = "\n"
   # ドキュメントの大きさ

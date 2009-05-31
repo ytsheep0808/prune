@@ -8,8 +8,8 @@ prune_fullpath = File.expand_path(prune_path)
 $:.unshift(prune_path) unless
   $:.include?(prune_path) || $:.include?(prune_fullpath)
 
-# version
-require "version"
+# Constants
+require "constants"
 
 # DSL parser
 require "parsers/document/properties/description_parser"
