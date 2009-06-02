@@ -5,6 +5,8 @@ require "date"
 module Prune 
   module Elements
     class Info < Base
+      include Prune
+
       def initialize(pdf)
         super(pdf)
         date = DateTime.now

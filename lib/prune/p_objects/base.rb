@@ -52,6 +52,8 @@ module Prune
 
       def value_to_s(value)
         case value
+        when String
+          return value
         when PName, PLiteralString, PHexadecimalString
           return value.to_s
         when PArray, PDictionary

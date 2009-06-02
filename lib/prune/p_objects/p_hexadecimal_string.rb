@@ -5,7 +5,7 @@ module Prune
     class PHexadecimalString < Base
       def initialize(string)
         raise unless string.instance_of?(String)
-        @string = string
+        @string = string.downcase
       end
 
       def string

@@ -21,8 +21,8 @@ module Prune
 
       # set pdf version
       def version(version)
-        raise PdfVersionError unless
-          /\A\d\.\d\z/ === version
+        valid_versions = %W[1.0 1.1 1.2 1.3 1.4 1.5 1.6 1.7]
+        raise PdfVersionError unless valid_versions.include?(version)
         @document.version = version
       end
     end

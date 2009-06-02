@@ -16,20 +16,8 @@ module Prune
         register
       end
 
-      def update(hash)
-        hash.keys.each{|key|
-          value = hash[key]
-          case key
-          when pn!(:PageLayout)
-            @content[key] = value if PAGE_LAYOUT.include?(value)
-          when pn!(:Lang)
-            @content[key] = value if value.is_a?(String)
-          end
-        }
-      end
-
-      def outlines=(outlines)
-        @content.update(pn!(:Outlines) => outlines)
+      def outlines=(reference)
+        @content.update(pn!(:Outlines) => reference)
       end
 
       def page_layout=(layout)

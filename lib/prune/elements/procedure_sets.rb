@@ -3,6 +3,8 @@
 module Prune 
   module Elements
     class ProcedureSets < Base
+      include Prune
+
       def initialize(pdf)
         super(pdf)
         @content = pa!(

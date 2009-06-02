@@ -1,37 +1,31 @@
 # coding:utf-8
 
-require "elements/base"
-
 module Prune 
   module Elements
     class Pages < Base
+      include Prune
+
       def initialize(pdf)
         super(pdf)
-        @content = PdfDictionary.new({
-          :Type => :Pages,
-          :Kids => PdfArray.new([]),
-          :Count => 0})
+        @content = pd!(
+          pn!(:Type) => pn!(:Pages),
+          pn!(:Kids) => pa!,
+          pn!(:Count) => 0)
         register
       end
 
       def parent=(parent)
-        @content.update(:Parent => parent)
+        @content.update(pn!(:Parent) => parent)
       end
 
       def empty?
-        @content[:Kids].empty?
+        @content[pn!(:Kids)].empty?
       end
 
       def <<(page)
         raise MalFormedPageError unless page.instance_of?(Page)
-        @content[:Kids] << page
-        @content[:Count] += 1
-      end
-
-      def page(no)
-        raise UnknownPageError unless
-          ((1 <= no) && (no <= @content[:Kids].size))
-        @content[:Kids][no - 1]
+        @content[pn!(:Kids)] << page.reference
+        @content[pn!(:Count)] += 1
       end
     end
   end

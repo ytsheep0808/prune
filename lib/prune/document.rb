@@ -1,5 +1,6 @@
 # coding:utf-8
 
+require "digest/md5"
 require "pdf_constants"
 require "pdf_types"
 require "pdf_objects"
@@ -7,6 +8,7 @@ require "pdf_errors"
 
 module Prune
   class Document
+    include Prune
     include PdfObject
     include PdfType
 
@@ -24,14 +26,13 @@ module Prune
       # 概要の登録
       @info = Elements::Info.new(self)
       # カタログの登録
-      @catalog = Catalog.new(self)
-      @catalog.update(args)
+      @catalog = Elements::Catalog.new(self)
       # アウトライン群の登録
-      outlines = Outlines.new(self)
-      @catalog.outlines = outlines
+      outlines = Elements::Outlines.new(self)
+      @catalog.outlines = outlines.reference
       # ページ群の登録
-      @pages = Pages.new(self)
-      @catalog.pages = @pages
+      @pages = Elements::Pages.new(self)
+      @catalog.pages = @pages.reference
       # ProcSet
       @proc_set = Elements::ProcedureSets.new(self)
     end
@@ -94,11 +95,13 @@ module Prune
 
     def trailer(source)
       out = []
+      id = Digest::MD5.hexdigest(rand.to_s)
       out << "trailer"
-      dict = PdfDictionary.new({
-        :Size => (@object_list.size + 1),
-        :Root => @catalog})
-      dict.update(:Info => @info) if @info
+      dict = pd!(
+        pn!(:Size) => (@object_list.size + 1),
+        pn!(:Root) => @catalog.reference,
+        pn!(:Info) => @info.reference,
+        pn!(:ID) => pa!(ph!(id), ph!(id)))
       out << dict.to_s
       out << "startxref"
       out << source.index("xref")
