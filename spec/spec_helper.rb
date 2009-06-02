@@ -1,10 +1,11 @@
+# coding:utf-8
 begin
-  require 'spec'
+  require "spec"
 rescue LoadError
-  require 'rubygems' unless ENV['NO_RUBYGEMS']
-  gem 'rspec'
-  require 'spec'
+  require "rubygems" unless ENV["NO_RUBYGEMS"]
+  gem "rspec"
+  require "spec"
 end
 
-$:.unshift(File.dirname(__FILE__) + '/../lib')
-require 'prune'
+$:.unshift(File.dirname(__FILE__) + "/../lib")
+require "prune"

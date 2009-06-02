@@ -1,9 +1,11 @@
 # coding:utf-8
 require File.join(File.dirname(__FILE__), "../../spec_helper.rb")
 
-describe Prune::PdfType::PdfStream do
+describe Prune::PObjects::PStream do
+  include Prune
+
   before(:each) do
-    @stream = PdfStream.new
+    @stream = ps!
   end
 
   it "should be correct length" do

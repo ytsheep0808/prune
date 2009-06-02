@@ -1,14 +1,12 @@
 # coding:utf-8
 
-require "pdf_type/pdf_base_type"
-
 module Prune
   module PObjects
-    class PArray < PObject
+    class PArray < Base
       SLICE = 10
 
-      def initialize(array = [])
-        @array = array
+      def initialize(*args)
+        @array = args
       end
 
       def empty?

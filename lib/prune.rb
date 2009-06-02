@@ -11,12 +11,34 @@ $:.unshift(prune_path) unless
 # Constants
 require "constants"
 
+# Errors
+
 # DSL parser
 require "parsers/document/properties/description_parser"
 require "parsers/document/properties_parser"
 require "parsers/document/page_parser"
 require "parsers/document_parser"
 
+# PDF objects
+require "p_objects/base"
+require "p_objects/p_hexadecimal_string"
+require "p_objects/p_literal_string"
+require "p_objects/p_name"
+require "p_objects/p_stream"
+require "p_objects/p_array"
+require "p_objects/p_dictionary"
+
+# PDF elements
+require "elements/base"
+require "elements/catalog"
+require "elements/font"
+require "elements/font_descriptor"
+require "elements/info"
+require "elements/outlines"
+require "elements/page"
+require "elements/pages"
+require "elements/procedure_sets"
+require "elements/stream"
 
 
 require "pdf_constants"

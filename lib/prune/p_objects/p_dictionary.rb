@@ -1,11 +1,14 @@
 # coding:utf-8
 
-require "pdf_type/pdf_base_type"
-
 module Prune
   module PObjects
-    class PDictionary < PObject
+    class PDictionary < Base
+      include Prune
+
       def initialize(hash = {})
+        raise unless hash.keys.all?{|key|
+          key.instance_of?(PName)
+        }
         @hash = hash
       end
 
@@ -18,10 +21,14 @@ module Prune
       end
 
       def []=(key, value)
+        raise unless key.instance_of?(PName)
         @hash[key] = value
       end
 
       def update(hash)
+        raise unless hash.keys.all?{|key|
+          key.instance_of?(PName)
+        }
         @hash.update(hash)
       end
 
@@ -31,7 +38,7 @@ module Prune
 
       def keys
         keys = @hash.keys.sort_by{|key| key.to_s}
-        keys.unshift(:Type) if keys.delete(:Type)
+        keys.unshift(pn!(:Type)) if keys.delete(pn!(:Type))
         keys
       end
 
