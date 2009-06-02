@@ -6,7 +6,7 @@ require "pdf_errors"
 module Prune
   module Elements
     class Base
-      include PdfType
+      include Prune
 
       attr_accessor :obj_id, :revision
 

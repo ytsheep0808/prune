@@ -12,6 +12,7 @@ $:.unshift(prune_path) unless
 require "constants"
 
 # Errors
+require "errors"
 
 # DSL parser
 require "parsers/document/properties/description_parser"
@@ -51,10 +52,14 @@ require "pdf_functions"
 require "document"
 
 module Prune
-  def self.pdf(file_path, &block)
+  def self.pdf(filename, &block)
+    unless /\.[pP][dD][fF]\z/ === filename
+      filename += ".pdf"
+    end
     @document = Document.new
     @document_parser = Parsers::DocumentParser.new(@document)
     @document_parser.instance_eval(&block)
     puts @document.to_s
+    # @document.save_as(filename)
   end
 end

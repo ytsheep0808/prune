@@ -12,6 +12,7 @@ module Prune
 
     attr_reader :catalog, :pages, :outlines, :info, :proc_set
     attr_reader :font_hash, :object_list
+    attr_writer :version
 
     def initialize(args = {})
       # Check if this argument is a hash
@@ -19,10 +20,9 @@ module Prune
       # 初期化
       @object_list = []
       @font_hash = {}
-      @version = args[:Version] || "1.2"
+      @version = "1.2"
       # 概要の登録
-      @info = Info.new(self)
-      @info.update(args)
+      @info = Elements::Info.new(self)
       # カタログの登録
       @catalog = Catalog.new(self)
       @catalog.update(args)
@@ -33,7 +33,7 @@ module Prune
       @pages = Pages.new(self)
       @catalog.pages = @pages
       # ProcSet
-      @proc_set = ProcedureSets.new(self)
+      @proc_set = Elements::ProcedureSets.new(self)
     end
 
     # Add a new page
@@ -47,16 +47,6 @@ module Prune
       return page
     end
 
-    # Set author.
-    def author=(author)
-      @info.update(:Author => author)
-    end
-
-    # Set title.
-    def title=(title)
-      @info.update(:Title => title)
-    end
-
     # Get page.
     def page(no)
       @pages.page(no)
@@ -66,9 +56,9 @@ module Prune
     def save_as(filename)
       raise MalFormedDocumentError if @pages.empty?
       # Write to a file
-      File.open(filename, "wb"){|file|
+      File.open(filename, "wb") do |file|
         file.write self.to_s
-      }
+      end
     end
 
     # Convert to String.

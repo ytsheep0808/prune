@@ -60,7 +60,8 @@ module Prune
           outdent!
           return out
         else
-          if value.respond_to?(:reference_id)
+          # if value.respond_to?(:reference_id)
+          if value.is_a?(Prune::Elements::Base)
             return value.reference_id
           else
             return value.to_s

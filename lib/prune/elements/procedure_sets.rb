@@ -1,13 +1,16 @@
 # coding:utf-8
 
-require "elements/base"
-
 module Prune 
   module Elements
     class ProcedureSets < Base
       def initialize(pdf)
         super(pdf)
-        @content = PdfArray.new([:PDF, :Text, :ImageB, :ImageC, :ImageI])
+        @content = pa!(
+          pn!(:PDF),
+          pn!(:Text),
+          pn!(:ImageB),
+          pn!(:ImageC),
+          pn!(:ImageI))
         register
       end
     end
