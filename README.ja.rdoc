@@ -10,33 +10,24 @@ Prune(プルーン)はPDF文書をRubyで作成するためのライブラリで
 
 * 日本語をフルサポートしています。
 * 文書と表組みの処理に特化しています。
-* 画像やマルチメディア等の複雑なPDFの機能はサポートしていません。
 
 == SYNOPSIS:
 
-  require "prune"
-  
-  include Prune
-  
-  ####
-  # Initialize pdf document
-  pdf = Pdf.new(
-    :Version => "1.4",
-    :Title => "synopsis",
-    :Author => "demo",
-    :Language => "ja-JP")
-  
-  ####
-  # Write in english
-  page1 = pdf.add_page(:A4W)
-  page1.set_font(:courier, 24)
-  page1.puts("Courier\nTest")
-  page1.set_font(:helvetica_bold)
-  page1.puts("Helvetica Bold")
-  
-  ####
-  # Save to a file
-  pdf.save_as("synopsis.pdf")
+require "prune"
+
+Prune.pdf("test.pdf") do
+  preferences do
+    description do
+      version "1.4"
+      title "synopsis"
+      author "demo"
+    end
+  end
+
+  page(:A4) do
+    
+  end
+end
 
 == REQUIREMENTS:
 
