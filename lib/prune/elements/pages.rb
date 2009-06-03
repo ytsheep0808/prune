@@ -14,10 +14,6 @@ module Prune
         register
       end
 
-      def parent=(parent)
-        @content.update(pn!(:Parent) => parent)
-      end
-
       def empty?
         @content[pn!(:Kids)].empty?
       end

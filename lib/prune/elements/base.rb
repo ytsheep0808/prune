@@ -26,6 +26,7 @@ module Prune
       end
 
       def reference
+        raise ObjectNotRegisteredError unless @registered
         "#{@element_id} #{@revision} R"
       end
 

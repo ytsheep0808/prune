@@ -1,13 +1,13 @@
 # coding:utf-8
 
-require "elements/base"
-
 module Prune 
   module Elements
     class FontDescriptor < Base
+      include Prune
+
       def initialize(hash)
         super(nil)
-        @content = PdfDictionary.new({:Type => :FontDescriptor})
+        @content = pd!(pn!(:Type) => pn!(:FontDescriptor))
         @content.update(hash)
       end
     end

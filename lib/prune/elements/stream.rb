@@ -1,26 +1,24 @@
 # coding:utf-8
 
-require "elements/base"
-
 module Prune 
   module Elements
     class Stream < Base
+      include Prune
       attr_reader :stream
 
       def initialize(pdf)
         super(pdf)
-        @content = PdfDictionary.new({:Length => 0})
-        @stream = PdfStream.new()
+        @content = pd!(pn!(:Length) => 0)
+        @stream = ps!
         register
       end
 
       def to_s
-        raise ObjectNotRegisteredError if @obj_id <= 0
         # ストリーム長の更新
-        @content[:Length] = @stream.length
+        @content[pn!(:Length)] = @stream.length
         # 文字列の出力
         out = []
-        out << "%d %d obj" % [@obj_id, @revision]
+        out << "%d %d obj" % [@element_id, @revision]
         out << @content.to_s
         out << @stream.to_s
         out << "endobj"

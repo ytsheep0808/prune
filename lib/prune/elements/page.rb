@@ -1,12 +1,11 @@
 # coding:utf-8
-
-require "elements/base"
 require "pdf_handlers"
 require "pdf_fonts"
 
 module Prune 
   module Elements
     class Page < Base
+      include Prune
       include PdfHandler
       include PdfFont
 
@@ -15,13 +14,14 @@ module Prune
       def initialize(pdf, size)
         super(pdf)
         @stream = Stream.new(@pdf)
-        @content = PdfDictionary.new(
-          :Type => :Page,
-          :Parent => pdf.pages,
-          :MediaBox => PdfArray.new(size.collect{|i| mm2pt(i)}),
-          :Contents => @stream,
-          :Resources => PdfDictionary.new(
-            :ProcSet => @pdf.proc_set))
+        media_box = size.collect{|i| mm2pt(i)}
+        @content = pd!(
+          pn!(:Type) => pn!(:Page),
+          pn!(:Parent) => @pdf.pages.reference,
+          pn!(:MediaBox) => pa!(*media_box),
+          pn!(:Contents) => @stream.reference,
+          pn!(:Resources) => pd!(
+            pn!(:ProcSet) => @pdf.proc_set.reference))
         @font = nil
         @font_size = 12
         @pos = [mm2pt(5), mm2pt(5)]
