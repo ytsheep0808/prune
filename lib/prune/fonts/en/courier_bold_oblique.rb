@@ -1,13 +1,7 @@
 # coding:utf-8
-
-require "pdf_font/font_base"
-require "pdf_object/font"
-
 module Prune 
-  module PdfFont
+  module Fonts
     class CourierBoldOblique < FontBase
-      include PdfObject
-
       def initialize(pdf)
         super(pdf)
         @main_object = Font.new(

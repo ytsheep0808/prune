@@ -1,10 +1,7 @@
 # coding:utf-8
-
 module Prune 
   module Elements
     class Pages < Base
-      include Prune
-
       def initialize(document)
         super(document)
         @content = pd!(

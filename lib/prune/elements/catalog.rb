@@ -1,5 +1,4 @@
 # coding:utf-8
-
 module Prune 
   module Elements
     class Catalog < Base

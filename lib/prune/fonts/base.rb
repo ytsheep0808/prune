@@ -1,8 +1,9 @@
 # coding:utf-8
-
 module Prune 
   module Fonts
     class Base
+      include Errors
+      include PObjects
       include Elements
 
       def initialize(document)

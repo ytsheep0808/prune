@@ -1,16 +1,11 @@
 # coding:utf-8
-
 require "digest/md5"
-require "pdf_constants"
-require "pdf_types"
-require "pdf_objects"
-require "pdf_errors"
 
 module Prune
   class Document
-    include Prune
-    include PdfObject
-    include PdfType
+    include Errors
+    include PObjects
+    include Elements
 
     attr_reader :catalog, :pages, :outlines, :info, :proc_set
     attr_reader :font_hash, :object_list
@@ -24,14 +19,14 @@ module Prune
       @font_hash = {}
       @version = "1.2"
       # 概要の登録
-      @info = Elements::Info.new(self)
+      @info = Info.new(self)
       # カタログの登録
-      @catalog = Elements::Catalog.new(self)
+      @catalog = Catalog.new(self)
       # アウトライン群の登録
-      outlines = Elements::Outlines.new(self)
+      outlines = Outlines.new(self)
       @catalog.outlines = outlines.reference
       # ページ群の登録
-      @pages = Elements::Pages.new(self)
+      @pages = Pages.new(self)
       @catalog.pages = @pages.reference
       # ProcSet
       @proc_set = Elements::ProcedureSets.new(self)

@@ -1,12 +1,9 @@
 # coding:utf-8
-
 require "date"
 
 module Prune 
   module Elements
     class Info < Base
-      include Prune
-
       def initialize(document)
         super(document)
         date = DateTime.now

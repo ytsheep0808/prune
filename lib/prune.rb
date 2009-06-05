@@ -1,20 +1,23 @@
 # coding:utf-8
 
-# Path of the library
+# Path of the library.
 prune_path = File.join(File.dirname(__FILE__), "prune")
 prune_fullpath = File.expand_path(prune_path)
 
-# Add to the load path of ruby
+# Add to the load path of ruby.
 $:.unshift(prune_path) unless
   $:.include?(prune_path) || $:.include?(prune_fullpath)
 
-# Constants
+# Constants.
 require "constants"
 
-# Errors
+# Errors.
 require "errors"
 
-# PDF objects
+# PDF functions.
+require "functions"
+
+# PDF objects.
 require "p_objects/base"
 require "p_objects/p_hexadecimal_string"
 require "p_objects/p_literal_string"
@@ -23,7 +26,7 @@ require "p_objects/p_stream"
 require "p_objects/p_array"
 require "p_objects/p_dictionary"
 
-# PDF elements
+# PDF elements.
 require "elements/base"
 require "elements/catalog"
 require "elements/font"
@@ -39,16 +42,13 @@ require "elements/stream"
 require "fonts/base"
 require "fonts/en/courier"
 
-require "pdf_constants"
-require "pdf_errors"
-require "pdf_types"
-require "pdf_objects"
-require "pdf_handlers"
-require "pdf_fonts"
-require "pdf_functions"
+#require "pdf_handlers"
+
+# PDF document.
 require "document"
 
-# DSL parser
+# DSL parser.
+require "parsers/base"
 require "parsers/document/properties/description_parser"
 require "parsers/document/properties_parser"
 require "parsers/document/page_parser"

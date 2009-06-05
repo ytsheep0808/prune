@@ -1,9 +1,7 @@
 # coding:utf-8
-
 module Prune 
   module Elements
     class Stream < Base
-      include Prune
       attr_reader :stream
 
       def initialize(document)

@@ -1,7 +1,19 @@
 # coding:utf-8
-
 module Prune
   module Errors
+    class UnknownEncodingError < StandardError; end
+    class ObjectNotRegisteredError < StandardError; end
+    class BlockNotGivenError < StandardError; end
+    class TableFormatError < StandardError; end
+    class ArgumentError < StandardError; end
+    class DocumentSizeError < StandardError; end
+    class ColorFormatError < StandardError; end
+
+
+    class MalFormedDocumentError < StandardError; end
+    class MalFormedPageError < StandardError; end
+    class UnknownPageError < StandardError; end
+    class PositionFormatError < StandardError; end
     # Invalid PDF version
     class PdfVersionError < StandardError;end
 

@@ -1,9 +1,10 @@
 # coding:utf-8
-
 module Prune
   module Elements
     class Base
+      include Errors
       include PObjects
+      include Functions
 
       def initialize(document)
         @document = document

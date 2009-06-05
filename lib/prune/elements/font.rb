@@ -1,11 +1,8 @@
 # coding:utf-8
-
 module Prune 
   module Elements
     class Font < Base
-      include Prune
-
-      def initialize(document, options)
+     def initialize(document, options)
         super(document)
         @name = options[pn!(:Name)]
         @content = pd!(pn!(:Type) => pn!(:Font))

@@ -1,13 +1,7 @@
 # coding:utf-8
-
-require "pdf_font/font_base"
-require "pdf_object/font"
-
 module Prune 
-  module PdfFont
-    class CourierBold < FontBase
-      include PdfObject
-
+  module Fonts
+    class CourierBold < Base
       def initialize(pdf)
         super(pdf)
         @main_object = Font.new(
@@ -16,7 +10,6 @@ module Prune
           :BaseFont => "Courier-Bold".to_sym,
           :Encoding => :StandardEncoding)
         @font_objects << @main_object
-        register
       end
     end
   end

@@ -1,17 +1,14 @@
 # coding:utf-8
-
-require "parsers/document/properties/description_parser"
-
 module Prune
   module Parsers
-    # parser for directive "properties"
-    class PropertiesParser
-      # initialize
+    # Parser for directive "properties".
+    class PropertiesParser < Base
+      # Initialize.
       def initialize(document)
         @document = document
       end
 
-      # send block to DescriptionParser class
+      # Send block to DescriptionParser class.
       def description(&block)
         puts self.class.to_s + ".description"
         @description_parser = DescriptionParser.new(@document)

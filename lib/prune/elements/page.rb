@@ -1,12 +1,7 @@
 # coding:utf-8
-require "pdf_handlers"
-require "pdf_fonts"
-
 module Prune 
   module Elements
     class Page < Base
-      include Prune
-
       attr_reader :font, :font_size
 
       def initialize(document, size)

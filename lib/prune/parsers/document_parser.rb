@@ -1,11 +1,8 @@
 # coding:utf-8
-
-require "parsers/document/properties_parser"
-
 module Prune
   module Parsers
-    # parser for Prune DSL
-    class DocumentParser
+    # Parser for Prune DSL.
+    class DocumentParser < Base
       def initialize(document)
         @document = document
       end
