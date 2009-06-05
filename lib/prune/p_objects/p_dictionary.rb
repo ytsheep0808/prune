@@ -1,49 +1,55 @@
 # coding:utf-8
-
 module Prune
   module PObjects
     class PDictionary < Base
-      include Prune
+      attr_reader :dict
 
-      def initialize(hash = {})
-        raise unless hash.keys.all?{|key|
-          key.instance_of?(PName)
-        }
-        @hash = hash
+      def initialize(pd = {})
+        @dict = {}
+        @dict.update(pd)
       end
 
       def empty?
-        return @hash.empty?
+        return @dict.empty?
       end
 
       def [](key)
-        @hash[key]
+        @dict[key]
       end
 
       def []=(key, value)
-        raise unless key.instance_of?(PName)
-        @hash[key] = value
+        self.update(key => value)
       end
 
-      def update(hash)
-        raise unless hash.keys.all?{|key|
-          key.instance_of?(PName)
-        }
-        @hash.update(hash)
+      def update(pd)
+        case pd
+        when PDictionary
+          raise PDictionaryKeyError unless pd.keys.all?{|key|
+            key.instance_of?(PName)
+          }
+          @dict.update(pd.dict)
+        when Hash
+          raise PDictionaryKeyError unless pd.keys.all?{|key|
+            key.instance_of?(PName)
+          }
+          @dict.update(pd)
+        else
+          raise PDictionaryTypeError
+        end
       end
 
       def has_key?(key)
-        @hash.has_key?(key)
+        @dict.has_key?(key)
       end
 
       def keys
-        keys = @hash.keys.sort_by{|key| key.to_s}
+        keys = @dict.keys.sort_by{|key| key.to_s}
         keys.unshift(pn!(:Type)) if keys.delete(pn!(:Type))
         keys
       end
 
       def size
-        @hash.size
+        @dict.size
       end
 
       def to_s

@@ -5,10 +5,11 @@ module Prune
     class FontDescriptor < Base
       include Prune
 
-      def initialize(hash)
-        super(nil)
+      def initialize(document, options)
+        super(document)
         @content = pd!(pn!(:Type) => pn!(:FontDescriptor))
-        @content.update(hash)
+        @content.update(options)
+        register
       end
     end
   end

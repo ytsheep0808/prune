@@ -5,14 +5,12 @@ module Prune
     class Font < Base
       include Prune
 
-      attr_reader :name
-      attr_reader :content
-
-      def initialize(hash)
-        super(nil)
-        @name = hash[:Name]
+      def initialize(document, options)
+        super(document)
+        @name = options[pn!(:Name)]
         @content = pd!(pn!(:Type) => pn!(:Font))
-        @content.update(hash)
+        @content.update(options)
+        register
       end
 
       def encoding

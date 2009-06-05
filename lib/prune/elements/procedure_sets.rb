@@ -5,8 +5,8 @@ module Prune
     class ProcedureSets < Base
       include Prune
 
-      def initialize(pdf)
-        super(pdf)
+      def initialize(document)
+        super(document)
         @content = pa!(
           pn!(:PDF),
           pn!(:Text),

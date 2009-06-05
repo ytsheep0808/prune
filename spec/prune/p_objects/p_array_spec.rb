@@ -2,7 +2,7 @@
 require File.join(File.dirname(__FILE__), "../../spec_helper.rb")
 
 describe Prune::PObjects::PArray do
-  include Prune
+  include Prune::PObjects
 
   it "should be empty when initialized without arguments" do
     array = pa!

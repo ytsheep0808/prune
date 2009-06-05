@@ -1,41 +1,41 @@
 # coding:utf-8
-
-require "pdf_errors"
-
 module Prune
-  # alias for PArray.new
-  def pa!(*args)
-    PObjects::PArray.new(*args)
-  end
-
-  # alias for PDictionary.new
-  def pd!(hash = {})
-    PObjects::PDictionary.new(hash)
-  end
-
-  # alias for PHexadecimalString.new
-  def ph!(string)
-    PObjects::PHexadecimalString.new(string)
-  end
-
-  # alias for PLiteralString.new
-  def pl!(string)
-    PObjects::PLiteralString.new(string)
-  end
-
-  # alias for PName.new
-  def pn!(name)
-    PObjects::PName.new(name)
-  end
-
-  # alias for PStream.new
-  def ps!
-    PObjects::PStream.new
-  end
-
   module PObjects
+    # Alias for PArray.new
+    def pa!(*args)
+      PArray.new(*args)
+    end
+
+    # Alias for PDictionary.new
+    def pd!(hash = {})
+      PDictionary.new(hash)
+    end
+
+    # Alias for PHexadecimalString.new
+    def ph!(string)
+      PHexadecimalString.new(string)
+    end
+
+    # Alias for PLiteralString.new
+    def pl!(string)
+      PLiteralString.new(string)
+    end
+
+    # Alias for PName.new
+    def pn!(name)
+      PName.new(name)
+    end
+
+    # Alias for PStream.new
+    def ps!
+      PStream.new
+    end
+
     class Base
-      # インデント
+      include Errors
+      include PObjects
+
+      # Indent.
       @@indent = 0
 
       def space

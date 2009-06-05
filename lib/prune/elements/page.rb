@@ -6,22 +6,20 @@ module Prune
   module Elements
     class Page < Base
       include Prune
-      include PdfHandler
-      include PdfFont
 
       attr_reader :font, :font_size
 
-      def initialize(pdf, size)
-        super(pdf)
-        @stream = Stream.new(@pdf)
+      def initialize(document, size)
+        super(document)
+        @stream = Stream.new(@document)
         media_box = size.collect{|i| mm2pt(i)}
         @content = pd!(
           pn!(:Type) => pn!(:Page),
-          pn!(:Parent) => @pdf.pages.reference,
+          pn!(:Parent) => @document.pages.reference,
           pn!(:MediaBox) => pa!(*media_box),
           pn!(:Contents) => @stream.reference,
           pn!(:Resources) => pd!(
-            pn!(:ProcSet) => @pdf.proc_set.reference))
+            pn!(:ProcSet) => @document.proc_set.reference))
         @font = nil
         @font_size = 12
         @pos = [mm2pt(5), mm2pt(5)]
@@ -39,27 +37,15 @@ module Prune
       end
 
       # Set font to use.
-      def set_font(font_sym, font_size = @font_size)
-        # Check for font in font list
-        unless @pdf.font_hash.has_key?(font_sym)
-          # Create font instance
-          font = eval(font_sym_to_class_name(font_sym)).new(@pdf)
-          @pdf.font_hash[font_sym] = font
-        else
-          # Get font instance from font hash
-          font = @pdf.font_hash[font_sym]
-        end
+      def set_font(key, font)
         # Add :Font key to content hash unless there is no key
-        unless @content[:Resources].has_key?(:Font)
-          @content[:Resources].update(:Font => PdfDictionary.new)
+        unless @content[pn!(:Resources)].has_key?(pn!(:Font))
+          @content[pn!(:Resources)].update(pn!(:Font) => pd!)
         end
         # Add font symbol to :Font hash
-        unless @content[:Resources][:Font].has_key?(font_sym)
-          @content[:Resources][:Font].update(font_sym => font)
+        unless @content[pn!(:Resources)][pn!(:Font)].has_key?(key)
+          @content[pn!(:Resources)][pn!(:Font)].update(key => font.reference)
         end
-        # Update text font and size
-        @font = font
-        @font_size = font_size
       end
 
       # Set writing position.

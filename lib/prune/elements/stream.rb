@@ -6,8 +6,8 @@ module Prune
       include Prune
       attr_reader :stream
 
-      def initialize(pdf)
-        super(pdf)
+      def initialize(document)
+        super(document)
         @content = pd!(pn!(:Length) => 0)
         @stream = ps!
         register

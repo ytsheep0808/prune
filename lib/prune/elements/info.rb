@@ -7,18 +7,19 @@ module Prune
     class Info < Base
       include Prune
 
-      def initialize(pdf)
-        super(pdf)
+      def initialize(document)
+        super(document)
         date = DateTime.now
         creation_date = date.strftime("D:%Y%m%d%H%M%S") +
           date.zone.sub(/:/, "'") + "'"
+        creator = "#{APPLICATION}-#{VERSION}"
         @content = pd!(
           pn!(:CreationDate) => pl!(creation_date),
           pn!(:ModDate) => pl!(creation_date),
           pn!(:Author) => pl!("UNKNOWN"),
           pn!(:Title) => pl!("UNKNOWN"),
-          pn!(:Creator) => pl!("#{APPLICATION}-#{VERSION}"),
-          pn!(:Producer) => pl!("#{APPLICATION}-#{VERSION}"))
+          pn!(:Creator) => pl!(creator),
+          pn!(:Producer) => pl!(creator))
         register
       end
 

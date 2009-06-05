@@ -1,20 +1,15 @@
 # coding:utf-8
-
 module Prune
   module PObjects
     class PHexadecimalString < Base
+      attr_reader :string
+      
       def initialize(string)
-        raise unless string.instance_of?(String)
-        @string = string.downcase
-      end
-
-      def string
-        @string
-      end
-
-      def equal?(value)
-        false unless value.instance_of?(self.class)
-        @string.equal?(value.string)
+        raise PHexadecimalStringTypeError unless
+          string.instance_of?(String)
+        @string = string.upcase
+        raise PHexadecimalStringContentError unless
+          /[0-9A-F]+/ === @string
       end
 
       def ==(value)

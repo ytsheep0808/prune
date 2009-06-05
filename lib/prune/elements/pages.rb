@@ -5,8 +5,8 @@ module Prune
     class Pages < Base
       include Prune
 
-      def initialize(pdf)
-        super(pdf)
+      def initialize(document)
+        super(document)
         @content = pd!(
           pn!(:Type) => pn!(:Pages),
           pn!(:Kids) => pa!,
@@ -19,7 +19,6 @@ module Prune
       end
 
       def <<(page)
-        raise MalFormedPageError unless page.instance_of?(Page)
         @content[pn!(:Kids)] << page.reference
         @content[pn!(:Count)] += 1
       end

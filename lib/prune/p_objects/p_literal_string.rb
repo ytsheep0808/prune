@@ -1,20 +1,13 @@
 # coding:utf-8
-
 module Prune
   module PObjects
     class PLiteralString < Base
+      attr_reader :string
+      
       def initialize(string)
-        raise unless string.instance_of?(String)
+        raise PLiteralStringTypeError unless
+          string.instance_of?(String)
         @string = string
-      end
-
-      def string
-        @string
-      end
-
-      def equal?(value)
-        false unless value.instance_of?(self.class)
-        @string.equal?(value.string)
       end
 
       def ==(value)

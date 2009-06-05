@@ -14,12 +14,6 @@ require "constants"
 # Errors
 require "errors"
 
-# DSL parser
-require "parsers/document/properties/description_parser"
-require "parsers/document/properties_parser"
-require "parsers/document/page_parser"
-require "parsers/document_parser"
-
 # PDF objects
 require "p_objects/base"
 require "p_objects/p_hexadecimal_string"
@@ -41,6 +35,9 @@ require "elements/pages"
 require "elements/procedure_sets"
 require "elements/stream"
 
+# fonts
+require "fonts/base"
+require "fonts/en/courier"
 
 require "pdf_constants"
 require "pdf_errors"
@@ -51,6 +48,12 @@ require "pdf_fonts"
 require "pdf_functions"
 require "document"
 
+# DSL parser
+require "parsers/document/properties/description_parser"
+require "parsers/document/properties_parser"
+require "parsers/document/page_parser"
+require "parsers/document_parser"
+
 module Prune
   def self.pdf(filename, &block)
     unless /\.[pP][dD][fF]\z/ === filename
@@ -60,6 +63,6 @@ module Prune
     @document_parser = Parsers::DocumentParser.new(@document)
     @document_parser.instance_eval(&block)
     puts @document.to_s
-    # @document.save_as(filename)
+    #@document.save_as(filename)
   end
 end

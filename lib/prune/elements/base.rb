@@ -3,8 +3,10 @@
 module Prune
   module Elements
     class Base
-      def initialize(pdf)
-        @pdf = pdf
+      include PObjects
+
+      def initialize(document)
+        @document = document
         @element_id = 0
         @revision = 0
         @content = nil
@@ -13,7 +15,7 @@ module Prune
       end
 
       def to_s
-        raise ObjectNotRegisteredError if @element_id <= 0
+        raise ObjectNotRegisteredError unless @registered
         out = []
         out << "%d %d obj" % [@element_id, @revision]
         out << @content.to_s
@@ -21,8 +23,9 @@ module Prune
         return out.join(LF)
       end
 
-      def reference_id
-        "%d %d R" % [@element_id, @revision]
+      def element_id
+        raise ObjectNotRegisteredError unless @registered
+        @element_id
       end
 
       def reference
@@ -32,8 +35,8 @@ module Prune
 
       def register
         unless @registered
-          @element_id = @pdf.object_list.size + 1
-          @pdf.object_list << self
+          @element_id = @document.object_list.size + 1
+          @document.object_list << self
           @registered = true
         end
       end

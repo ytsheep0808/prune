@@ -37,22 +37,6 @@ module Prune
       @proc_set = Elements::ProcedureSets.new(self)
     end
 
-    # Add a new page
-    def add_page(size = :A4)
-      # Check document size
-      raise DocumenteSizeError unless DOCUMENT_SIZE.include?(size)
-      # Create a new page
-      page = Page.new(self, DOCUMENT_SIZE[size])
-      # Add page to pages
-      @pages << page
-      return page
-    end
-
-    # Get page.
-    def page(no)
-      @pages.page(no)
-    end
-
     # Save pdf document to a file.
     def save_as(filename)
       raise MalFormedDocumentError if @pages.empty?

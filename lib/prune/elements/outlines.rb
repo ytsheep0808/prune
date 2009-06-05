@@ -5,8 +5,8 @@ module Prune
     class Outlines < Base
       include Prune
 
-      def initialize(pdf)
-        super(pdf)
+      def initialize(document)
+        super(document)
         @content = pd!(
           pn!(:Type) => pn!(:Outlines),
           pn!(:Count) => 0)

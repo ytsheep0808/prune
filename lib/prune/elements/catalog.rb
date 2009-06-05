@@ -5,8 +5,8 @@ module Prune
     class Catalog < Base
       include Prune
 
-      def initialize(pdf)
-        super(pdf)
+      def initialize(document)
+        super(document)
         @content = pd!(
           pn!(:Type) => pn!(:Catalog),
           pn!(:PageLayout) => pn!(:SinglePage),

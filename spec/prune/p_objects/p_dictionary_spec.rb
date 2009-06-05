@@ -2,7 +2,7 @@
 require File.join(File.dirname(__FILE__), "../../spec_helper.rb")
 
 describe Prune::PObjects::PDictionary do
-  include Prune
+  include Prune::PObjects
 
   before(:each) do
     @dictionary = pd!(
