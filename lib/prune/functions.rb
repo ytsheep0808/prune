@@ -6,10 +6,5 @@ module Prune
       pt = mm * 72 / 25.4
       (pt * 100).round / 100.0
     end
-
-    # Y座標変換
-    def trans_y(page, y)
-      page.height - y
-    end
   end
 end

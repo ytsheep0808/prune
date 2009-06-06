@@ -1,5 +1,6 @@
 # coding:utf-8
-require "prune"
+require File.expand_path(File.join(File.dirname(__FILE__), "../lib/prune"))
+# require "prune"
 
 Prune.pdf("english_fonts.pdf"){
   properties{
@@ -9,19 +10,47 @@ Prune.pdf("english_fonts.pdf"){
     }
   }
 
-  font_size = 24
-  alphabet = "abcdefghijklmnopqrstuvwxyz"
-  number = "0123456789"
-  str = "\n" + alphabet + " " + number + "\n" + alphabet.upcase + "\n"
+  alphabets = "abcdefghijklmnopqrstuvwxyz"
+  numbers = "0123456789"
+  sample = alphabets + " " + numbers + "\n" + alphabets.upcase + "\n"
 
-  page(:A4W){
-    font :courier, :size => font_size
-    text str
-    font :courier, :size => font_size, :bold => true
-    text str
-    font :courier, :size => font_size, :italic => true
-    text str
-    font :courier, :size => font_size, :bold => true, :italic => true
-    text str
+  page(:A4W, :font => :helvetica, :font_size => 30, :bold => true){
+    text "* Courier"
+    text sample, :font => :courier
+    text "* Courier Bold"
+    text sample, :font => :courier, :bold => true
+    text "* Courier Italic"
+    text sample, :font => :courier, :italic => true
+    text "* Courier Bold Italic"
+    text sample, :font => :courier, :bold => true, :italic => true
+  }
+
+  page(:A4W, :font => :helvetica, :font_size => 30, :bold => true){
+    text "* Helvetica"
+    text sample, :font => :helvetica
+    text "* Helvetica Bold"
+    text sample, :font => :helvetica, :bold => true
+    text "* Helvetica Italic"
+    text sample, :font => :helvetica, :italic => true
+    text "* Helvetica Italic"
+    text sample, :font => :helvetica, :bold => true, :italic => true
+  }
+
+  page(:A4W, :font => :helvetica, :font_size => 30, :bold => true){
+    text "* Times Roman"
+    text sample, :font => :times_roman
+    text "* Times Roman Bold"
+    text sample, :font => :times_roman, :bold => true
+    text "* Times Roman Italic"
+    text sample, :font => :times_roman, :italic => true
+    text "* Times Roman Bold Italic"
+    text sample, :font => :times_roman, :bold => true, :italic => true
+  }
+
+  page(:A4W, :font => :helvetica, :font_size => 30, :bold => true){
+    text "* Symbol"
+    text sample, :font => :symbol
+    text "* Zapf Dingbats"
+    text sample, :font => :zapf_dingbats
   }
 }

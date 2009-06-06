@@ -38,5 +38,7 @@ module Prune
 
     # Wrong options for font.
     class FontOptionError < StandardError;end
+    # Position error
+    class PositionError < StandardError;end
   end
 end
