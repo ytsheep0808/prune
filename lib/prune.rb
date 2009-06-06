@@ -46,6 +46,8 @@ require "fonts/en/helvetica"
 require "fonts/en/symbol"
 require "fonts/en/times_roman"
 require "fonts/en/zapf_dingbats"
+require "fonts/base_ja"
+require "fonts/ja/ms_gothic"
 
 # handlers
 require "handlers/base"
@@ -69,7 +71,7 @@ module Prune
     @document = Document.new
     @document_parser = Parsers::DocumentParser.new(@document)
     @document_parser.instance_eval(&block)
-    puts @document.to_s
+    # puts @document.to_s
     @document.save_as(filename)
   end
 end

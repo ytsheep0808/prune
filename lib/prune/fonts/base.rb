@@ -7,22 +7,24 @@ module Prune
       include Elements
 
       class << self
-        # Check font flags.
-        def flags(options)
+        # Check bold flag.
+        def bold?(options)
           raise FontOptionError unless
             [true, false, nil].include?(options[:bold])
+          options[:bold] || false
+        end
+
+        # Check italic flag.
+        def italic?(options)
           raise FontOptionError unless
             [true, false, nil].include?(options[:italic])
-          bold = options[:bold] || false
-          italic = options[:italic] || false
-          return [bold, italic]
+          options[:italic] || false
         end
       end
 
       # Initialize.
       def initialize(document)
         @document = document
-        @font_elements = []
         @main_element = nil
       end
 
@@ -42,9 +44,14 @@ module Prune
       end
 
       private
-      # Check font flags.
-      def flags(options)
-        self.class.flags(options)
+      # Check bold flags
+      def bold?(options)
+        self.class.bold?(options)
+      end
+
+      # Check italic flags
+      def italic?(options)
+        self.class.italic?(options)
       end
     end
   end

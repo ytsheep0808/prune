@@ -11,7 +11,6 @@ module Prune
           pd!(
             pn!(:Subtype) => pn!(:Type1),
             pn!(:Encoding) => pn!(:StandardEncoding)))
-        @font_elements << @main_element
       end
 
       # Set font name.

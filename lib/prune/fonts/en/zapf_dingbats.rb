@@ -1,11 +1,11 @@
 # coding:utf-8
 module Prune
   module Fonts
+    # Zapf dingbats font.
     class ZapfDingbats < BaseEn
       class << self
         def key(options)
-          bold, italic = flags(options)
-          FontOptionError if bold || italic
+          FontOptionError if bold?(options) || italic?(options)
           PObjects.pn!(:zapf_dingbats)
         end
       end
