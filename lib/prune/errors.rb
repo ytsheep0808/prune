@@ -35,5 +35,8 @@ module Prune
     class PNameTypeError < StandardError;end
     # PStream's content should be a String.
     class PStreamTypeError < StandardError;end
+
+    # Wrong options for font.
+    class FontOptionError < StandardError;end
   end
 end

@@ -40,6 +40,7 @@ require "elements/stream"
 
 # fonts
 require "fonts/base"
+require "fonts/base_en"
 require "fonts/en/courier"
 
 #require "pdf_handlers"

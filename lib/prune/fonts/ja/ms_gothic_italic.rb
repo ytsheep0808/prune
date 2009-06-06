@@ -5,8 +5,8 @@ require "pdf_objects"
 require "pdf_types"
 
 module Prune 
-  module PdfFont
-    class MsGothicItalic < FontBase
+  module Fonts
+    class MsGothicItalic < Base
       include PdfType
       include PdfObject
 

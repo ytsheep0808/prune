@@ -1,21 +1,17 @@
 # coding:utf-8
-
-require "pdf_font/font_base"
-
 module Prune 
-  module PdfFont
-    class Helvetica < FontBase
-      include PdfObject
-
-      def initialize(pdf)
-        super(pdf)
+  module Fonts
+    class Helvetica < Base
+      def initialize(document)
+        super(document)
         @main_object = Font.new(
-          :Name => :helvetica,
-          :Subtype => :Type1,
-          :BaseFont => :Helvetica,
-          :Encoding => :StandardEncoding)
+          document,
+          pn!(
+            pn!(:Name) => pn!(:helvetica),
+            pn!(:Subtype) => pn!(:Type1),
+            pn!(:BaseFont) => pn!(:Helvetica),
+            pn!(:Encoding) => pn!(:StandardEncoding)))
         @font_objects << @main_object
-        register
       end
     end
   end

@@ -5,8 +5,8 @@ require "pdf_objects"
 require "pdf_types"
 
 module Prune 
-  module PdfFont
-    class JpDefault < FontBase
+  module Fonts
+    class JpDefault < Base
       include PdfType
       include PdfObject
 

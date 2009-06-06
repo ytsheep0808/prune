@@ -4,8 +4,8 @@ require "pdf_font/font_base"
 require "pdf_object/font"
 
 module Prune 
-  module PdfFont
-    class Symbol < FontBase
+  module Fonts
+    class Symbol < Base
       include PdfObject
 
       def initialize(pdf)

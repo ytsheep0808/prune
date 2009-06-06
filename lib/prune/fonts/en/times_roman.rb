@@ -4,8 +4,8 @@ require "pdf_font/font_base"
 require "pdf_object/font"
 
 module Prune 
-  module PdfFont
-    class TimesRoman < FontBase
+  module Fonts
+    class TimesRoman < Base
       include PdfObject
 
       def initialize(pdf)

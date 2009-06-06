@@ -1,20 +1,32 @@
 # coding:utf-8
-
 module Prune 
   module Fonts
-    class Courier < Base
-      include Prune
+    class Courier < BaseEn
+      class << self
+        def key(options)
+          bold, italic = flags(options)
+          key = "courier"
+          key << "_bold" if bold
+          key << "_italic" if italic
+          PObjects.pn!(key)
+        end
+      end
 
-      def initialize(document)
+      def initialize(document, options = {})
         super(document)
-        @main_object = Font.new(
-          document,
-          pd!(
-            pn!(:Name) => pn!(:courier),
-            pn!(:Subtype) => pn!(:Type1),
-            pn!(:BaseFont) => pn!(:Courier),
-            pn!(:Encoding) => pn!(:StandardEncoding)))
-        @font_objects << @main_object
+        bold, italic = flags(options)
+        self.name = self.class.key(options)
+        bold = options[:bold] || false
+        italic = options[:italic] || false
+        if bold && italic
+          self.base_font = pn!("Courier-BoldOblique")
+        elsif bold
+          self.base_font = pn!("Courier-Bold")
+        elsif italic
+          self.base_font = pn!("Courier-Oblique")
+        else
+          self.base_font = pn!(:Courier)
+        end
       end
     end
   end

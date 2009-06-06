@@ -2,12 +2,26 @@
 module Prune 
   module Elements
     class Font < Base
-     def initialize(document, options)
+      def initialize(document, options)
         super(document)
-        @name = options[pn!(:Name)]
         @content = pd!(pn!(:Type) => pn!(:Font))
         @content.update(options)
         register
+      end
+
+      # Get name of the font.
+      def name
+        @content[pn!(:Name)]
+      end
+
+      # Set name of the font.
+      def name=(name)
+        @content[pn!(:Name)] = name
+      end
+
+      # Set base font.
+      def base_font=(base_font)
+        @content[pn!(:BaseFont)] = base_font
       end
 
       def encoding

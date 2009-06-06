@@ -1,13 +1,19 @@
 # coding:utf-8
+
+require "pdf_font/font_base"
+require "pdf_object/font"
+
 module Prune 
   module Fonts
-    class CourierBoldOblique < FontBase
+    class HelveticaOblique < Base
+      include PdfObject
+
       def initialize(pdf)
         super(pdf)
         @main_object = Font.new(
-          :Name => :courier_bold_oblique,
+          :Name => :helvetica_oblique,
           :Subtype => :Type1,
-          :BaseFont => "Courier-BoldOblique".to_sym,
+          :BaseFont => "Helvetica-Oblique".to_sym,
           :Encoding => :StandardEncoding)
         @font_objects << @main_object
         register
