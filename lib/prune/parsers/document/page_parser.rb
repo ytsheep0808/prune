@@ -27,7 +27,7 @@ module Prune
 
       # Set font.
       def font(symbol, options = {})
-        @font_size = options[:size] if options[:size]
+        @font_size = options[:size] || 12
         @font_color = options[:color] if options[:color]
         font_class = constantize_font(symbol)
         font_key = font_class.key(options)
