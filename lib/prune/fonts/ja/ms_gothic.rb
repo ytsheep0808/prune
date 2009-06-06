@@ -15,23 +15,35 @@ module Prune
         super(document)
         self.name = self.class.key(options)
         if bold?(options) && italic?(options)
-          self.base_font = pn!("MS-Gothic")
-          self.flags = 262213
+          self.base_font = pn!("MS-Gothic,BoldItalic")
+          self.flags = calculate_flags(
+            :fixed_pitch => true,
+            :symbolic => true,
+            :italic => true,
+            :force_bold => true)
           self.italic_angle = -11
           self.stem_v = 156
         elsif bold?(options)
           self.base_font = pn!("MS-Gothic,Bold")
-          self.flags = 262149
+          self.flags = calculate_flags(
+            :fixed_pitch => true,
+            :symbolic => true,
+            :force_bold => true)
           self.italic_angle = 0
           self.stem_v = 156
         elsif italic?(options)
           self.base_font = pn!("MS-Gothic,Italic")
-          self.flags = 69
+          self.flags = calculate_flags(
+            :fixed_pitch => true,
+            :symbolic => true,
+            :italic => true)
           self.italic_angle = -11
           self.stem_v = 78
         else
           self.base_font = pn!("MS-Gothic")
-          self.flags = 5
+          self.flags = calculate_flags(
+            :fixed_pitch => true,
+            :symbolic => true)
           self.italic_angle = 0
           self.stem_v = 78
         end

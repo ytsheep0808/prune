@@ -38,6 +38,8 @@ module Prune
 
     # Wrong options for font.
     class FontOptionError < StandardError;end
+    # Wrong flags for font descriptor.
+    class FontDescriptorFlagError < StandardError;end
     # Position error
     class PositionError < StandardError;end
   end

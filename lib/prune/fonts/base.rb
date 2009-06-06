@@ -44,14 +44,32 @@ module Prune
       end
 
       private
-      # Check bold flags
+      # Check bold flags.
       def bold?(options)
         self.class.bold?(options)
       end
 
-      # Check italic flags
+      # Check italic flags.
       def italic?(options)
         self.class.italic?(options)
+      end
+
+      # Calculate flags.
+      def calculate_flags(options = {})
+        raise FontDescriptorFlagError unless options.values.all?{|value|
+          [true, false].include?(value)
+        }
+        flags = 0b00000000000000000000000000000000
+        flags |= 0b00000000000000000000000000000001 if options[:fixed_pitch]
+        flags |= 0b00000000000000000000000000000010 if options[:serif]
+        flags |= 0b00000000000000000000000000000100 if options[:symbolic]
+        flags |= 0b00000000000000000000000000001000 if options[:script]
+        flags |= 0b00000000000000000000000000100000 if options[:non_symbolic]
+        flags |= 0b00000000000000000000000001000000 if options[:italic]
+        flags |= 0b00000000000000010000000000000000 if options[:all_cap]
+        flags |= 0b00000000000000100000000000000000 if options[:small_cap]
+        flags |= 0b00000000000001000000000000000000 if options[:force_bold]
+        flags
       end
     end
   end
