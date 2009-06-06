@@ -58,8 +58,7 @@ require "document"
 
 # DSL parser.
 require "parsers/base"
-require "parsers/document/properties/description_parser"
-require "parsers/document/properties_parser"
+require "parsers/document/property_parser"
 require "parsers/document/page_parser"
 require "parsers/document_parser"
 

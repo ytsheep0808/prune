@@ -7,9 +7,11 @@ module Prune
         @document = document
       end
 
-      def properties(&block)
-        @properties_parser = PropertiesParser.new(@document)
-        @properties_parser.instance_eval(&block)
+      def property(&block)
+        unless @property_parser
+          @property_parser = PropertyParser.new(@document)
+        end
+        @property_parser.instance_eval(&block)
       end
 
       def page(size = :A4, options = {}, &block)

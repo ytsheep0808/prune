@@ -3,11 +3,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../lib/prune"))
 # require "prune"
 
 Prune.pdf("japanese_fonts.pdf"){
-  properties{
-    description{
-      title "Japanese fonts"
-      author "DEMO"
-    }
+  property{
+    title "Japanese fonts"
+    author "DEMO"
   }
 
   hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねの\n"\

@@ -1,8 +1,8 @@
 # coding:utf-8
 module Prune
   module Parsers
-    # Parser for directive "description".
-    class DescriptionParser < Base
+    # Parser for directive "property".
+    class PropertyParser < Base
       # Initialize.
       def initialize(document)
         @document = document

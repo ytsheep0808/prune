@@ -3,11 +3,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../lib/prune"))
 # require "prune"
 
 Prune.pdf("english_fonts.pdf"){
-  properties{
-    description{
-      title "English fonts"
-      author "DEMO"
-    }
+  property{
+    title "English fonts"
+    author "DEMO"
   }
 
   alphabets = "abcdefghijklmnopqrstuvwxyz"
