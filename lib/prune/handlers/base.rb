@@ -1,10 +1,9 @@
 # coding:utf-8
-
-require "pdf_errors"
-
 module Prune 
-  module PdfHandler
-    class BaseHandler
+  module Handlers
+    class Base
+      include Errors
+      
       attr_reader :lines
 
       def initialize(page)

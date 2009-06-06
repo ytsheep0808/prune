@@ -10,14 +10,25 @@ module Prune
         raise DocumenteSizeError unless DOCUMENT_SIZE.has_key?(size)
         # Create a new page.
         @page = Page.new(@document, DOCUMENT_SIZE[size])
+        @stream = @page.stream
         # Add page to pages.
         @document.pages << @page
+        # Initialize page variables
+        @font = nil
+        @font_size = 12
+        @font_color = "#000000"
+        @pos = [mm2pt(5), mm2pt(5)]
+      end
+
+      # Set position.
+      def set_pos(x, y)
+        @pos = [mm2pt(x), mm2pt(y)]
       end
 
       # Set font.
       def font(symbol, options = {})
-        @font_size = options[:size] || 12
-        @font_color = options[:color] || "000000"
+        @font_size = options[:size] if options[:size]
+        @font_color = options[:color] if options[:color]
         font_class = constantize_font(symbol)
         font_key = font_class.key(options)
         # Check for font in font list.
@@ -30,6 +41,20 @@ module Prune
           @font = @document.font_hash[font_key]
         end
         @page.set_font(font_key, @font)
+      end
+
+      # Write text.
+      def text(text)
+        raise FontNotSpecifiedError unless @font
+        text.split("\n").each_with_index{|token, index|
+          decoded_text = decode(token)
+          y = trans_y(@page, @pos[1] + @font_size * (index + 1))
+          @stream << "BT"
+          @stream << "/%s %d Tf" % [@font.name.to_s, @font_size]
+          @stream << "%d %d Td" % [@pos[0], y]
+          @stream << "%s Tj" % decoded_text
+          @stream << "ET"
+        }
       end
 
       private
@@ -47,6 +72,17 @@ module Prune
           eval("Fonts::#{font_name}")
         rescue
           raise UnexistingFontError
+        end
+      end
+
+      def decode(text)
+        case @font.encoding
+        when pn!(:StandardEncoding)
+          "(%s)" % text
+        when pn!("UniJIS-UCS2-H")
+          "<%s>" % text.toutf16.unpack("C*").collect{|c| "%02X" % c}.join("")
+        else
+          raise UnknownEncodingError
         end
       end
     end

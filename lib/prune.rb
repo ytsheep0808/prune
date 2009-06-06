@@ -47,7 +47,9 @@ require "fonts/en/symbol"
 require "fonts/en/times_roman"
 require "fonts/en/zapf_dingbats"
 
-#require "pdf_handlers"
+# handlers
+require "handlers/base"
+require "handlers/text_handler"
 
 # PDF document.
 require "document"
@@ -68,6 +70,6 @@ module Prune
     @document_parser = Parsers::DocumentParser.new(@document)
     @document_parser.instance_eval(&block)
     puts @document.to_s
-    #@document.save_as(filename)
+    @document.save_as(filename)
   end
 end

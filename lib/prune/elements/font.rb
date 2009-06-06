@@ -24,8 +24,9 @@ module Prune
         @content[pn!(:BaseFont)] = base_font
       end
 
+      # Get encoding of the font.
       def encoding
-        @content[:Encoding]
+        @content[pn!(:Encoding)]
       end
     end
   end

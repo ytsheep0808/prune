@@ -6,22 +6,22 @@ module Prune
       # Initialize.
       def initialize(document)
         super(document)
-        @main_object = Font.new(
+        @main_element = Font.new(
           document,
           pd!(
             pn!(:Subtype) => pn!(:Type1),
             pn!(:Encoding) => pn!(:StandardEncoding)))
-        @font_objects << @main_object
+        @font_elements << @main_element
       end
 
       # Set font name.
       def name=(name)
-        @main_object.name = name
+        @main_element.name = name
       end
 
       # Set base_font.
       def base_font=(base_font)
-        @main_object.base_font = base_font
+        @main_element.base_font = base_font
       end
     end
   end

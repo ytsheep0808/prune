@@ -1,12 +1,7 @@
 # coding:utf-8
-
-require "pdf_handler/base_handler"
-require "pdf_handler/draw_handler"
-require "pdf_handler/text_handler"
-
 module Prune 
-  module PdfHandler
-    class TableHandler < BaseHandler
+  module Handlers
+    class TableHandler < Base
       attr_accessor :height
 
       def initialize(page, widths, pos)

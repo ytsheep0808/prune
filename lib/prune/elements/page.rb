@@ -2,8 +2,7 @@
 module Prune 
   module Elements
     class Page < Base
-      attr_reader :font, :font_size
-
+      # Initialize.
       def initialize(document, size)
         super(document)
         @stream = Stream.new(@document)
@@ -28,7 +27,7 @@ module Prune
 
       # Get height of the document.
       def height
-        @content[:MediaBox][3]
+        @content[pn!(:MediaBox)][3]
       end
 
       # Set font to use.

@@ -1,11 +1,7 @@
 # coding:utf-8
-
-require "pdf_handler/base_handler"
-require "pdf_errors"
-
 module Prune 
-  module PdfHandler
-    class DrawHandler < BaseHandler
+  module Handlers
+    class DrawHandler < Base
       LINE_CAP = {
         :butt_cap => 0,
         :round_cap => 1,

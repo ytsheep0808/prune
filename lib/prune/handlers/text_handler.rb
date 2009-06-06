@@ -1,14 +1,10 @@
 # coding:utf-8
-
 require "kconv"
-require "pdf_handler/base_handler"
 
 module Prune 
-  module PdfHandler
-    class TextHandler < BaseHandler
-      def write(text, font, font_size, pos = [0,0])
-        raise FontNotSpecifiedError unless font
-        raise FontNotSpecifiedError unless font_size
+  module Handlers
+    class TextHandler < Base
+      def write(text, font, font_size, pos)
         @font = font.main_object
         text.split("\n").each_with_index{|token, index|
           decoded_text = decode(token)

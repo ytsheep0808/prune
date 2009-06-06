@@ -22,18 +22,23 @@ module Prune
       # Initialize.
       def initialize(document)
         @document = document
-        @font_objects = []
-        @main_object = nil
+        @font_elements = []
+        @main_element = nil
       end
 
       # Get reference of the font.
       def reference
-        @main_object.reference
+        @main_element.reference
       end
 
       # Get name of the font.
       def name
-        @main_object.name
+        @main_element.name
+      end
+
+      # Get encoding of the font.
+      def encoding
+        @main_element.encoding
       end
 
       private
