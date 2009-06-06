@@ -42,6 +42,10 @@ require "elements/stream"
 require "fonts/base"
 require "fonts/base_en"
 require "fonts/en/courier"
+require "fonts/en/helvetica"
+require "fonts/en/symbol"
+require "fonts/en/times_roman"
+require "fonts/en/zapf_dingbats"
 
 #require "pdf_handlers"
 

@@ -1,17 +1,30 @@
 # coding:utf-8
-module Prune 
+module Prune
   module Fonts
-    class Helvetica < Base
-      def initialize(document)
+    class Helvetica < BaseEn
+      class << self
+        def key(options)
+          bold, italic = flags(options)
+          key = "helvetica"
+          key << "_bold" if bold
+          key << "_italic" if italic
+          PObjects.pn!(key)
+        end
+      end
+
+      def initialize(document, options = {})
         super(document)
-        @main_object = Font.new(
-          document,
-          pn!(
-            pn!(:Name) => pn!(:helvetica),
-            pn!(:Subtype) => pn!(:Type1),
-            pn!(:BaseFont) => pn!(:Helvetica),
-            pn!(:Encoding) => pn!(:StandardEncoding)))
-        @font_objects << @main_object
+        bold, italic = flags(options)
+        self.name = self.class.key(options)
+        if bold && italic
+          self.base_font = pn!("Helvetica-BoldOblique")
+        elsif bold
+          self.base_font = pn!("Helvetica-Bold")
+        elsif italic
+          self.base_font = pn!("Helvetica-Oblique")
+        else
+          self.base_font = pn!(:Helvetica)
+        end
       end
     end
   end

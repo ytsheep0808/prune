@@ -1,22 +1,19 @@
 # coding:utf-8
-
-require "pdf_font/font_base"
-require "pdf_object/font"
-
-module Prune 
+module Prune
   module Fonts
-    class ZapfDingbats < Base
-      include PdfObject
+    class ZapfDingbats < BaseEn
+      class << self
+        def key(options)
+          bold, italic = flags(options)
+          FontOptionError if bold || italic
+          PObjects.pn!(:zapf_dingbats)
+        end
+      end
 
-      def initialize(pdf)
-        super(pdf)
-        @main_object = Font.new(
-          :Name => :zapf_dingbats,
-          :Subtype => :Type1,
-          :BaseFont => :ZapfDingbats,
-          :Encoding => :StandardEncoding)
-        @font_objects << @main_object
-        register
+      def initialize(document, options = {})
+        super(document)
+        self.name = self.class.key(options)
+        self.base_font = pn!(:ZapfDingbats)
       end
     end
   end

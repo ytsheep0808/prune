@@ -1,22 +1,19 @@
 # coding:utf-8
-
-require "pdf_font/font_base"
-require "pdf_object/font"
-
-module Prune 
+module Prune
   module Fonts
-    class Symbol < Base
-      include PdfObject
+    class Symbol < BaseEn
+      class << self
+        def key(options)
+          bold, italic = flags(options)
+          FontOptionError if bold || italic
+          PObjects.pn!(:symbol)
+        end
+      end
 
-      def initialize(pdf)
-        super(pdf)
-        @main_object = Font.new(
-          :Name => :symbol,
-          :Subtype => :Type1,
-          :BaseFont => :Symbol,
-          :Encoding => :StandardEncoding)
-        @font_objects << @main_object
-        register
+      def initialize(document, options = {})
+        super(document)
+        self.name = self.class.key(options)
+        self.base_font = pn!(:Symbol)
       end
     end
   end

@@ -16,8 +16,6 @@ module Prune
         super(document)
         bold, italic = flags(options)
         self.name = self.class.key(options)
-        bold = options[:bold] || false
-        italic = options[:italic] || false
         if bold && italic
           self.base_font = pn!("Courier-BoldOblique")
         elsif bold
