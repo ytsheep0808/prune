@@ -20,5 +20,8 @@ Prune.pdf("text_decoration.pdf"){
       :bold => true, :italic => true,
       :stroke_color => "#FF0000", :fill_color => "#0000FF",
       :font_mode => :fill_and_stroke
+    span "赤色の文字", :fill_color => "#FF0000"
+    span "黄色の文字", :fill_color => "#FFFF00"
+    span "青色の文字", :fill_color => "#0000FF"
   }
 }

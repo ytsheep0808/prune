@@ -90,8 +90,11 @@ module Prune
         # Set font mode.
         font_mode = options[:font_mode] || @default_font_mode
         # Write text.
+        max_length = 0
         string.split("\n").each do |token|
-          if token.size > 0
+          length = token.size
+          if length > 0
+            max_length = length if max_length < length
             @stream << "%s RG" % convert_color(stroke_color)
             @stream << "%s rg" % convert_color(fill_color)
             @stream << "BT"
@@ -104,7 +107,14 @@ module Prune
           end
           @y -= font_size
         end
-        width = 0
+        # Calculate width.
+        case font.encoding
+        when pn!(:StandardEncoding)
+          width = max_length * font_size / 4
+        else
+          width = max_length * font_size / 2
+        end
+        # Calculate height.
         height = (string.count("\n") + 1) * font_size
         [width, height]
       end
