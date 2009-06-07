@@ -36,8 +36,8 @@ module Prune
 
       def register
         unless @registered
-          @element_id = @document.object_list.size + 1
-          @document.object_list << self
+          @element_id = @document.elements.size + 1
+          @document.elements << self
           @registered = true
         end
       end

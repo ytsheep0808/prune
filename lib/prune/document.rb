@@ -8,20 +8,19 @@ module Prune
     include Elements
 
     attr_reader :catalog, :pages, :outlines, :info, :proc_set
-    attr_reader :font_hash, :object_list
+    attr_reader :fonts, :elements
     attr_writer :version
 
-    def initialize(args = {})
-      # Check if this argument is a hash
-      raise ArgumentError unless args.is_a?(Hash)
+    def initialize
       # 初期化
-      @object_list = []
-      @font_hash = {}
+      @elements = []
+      @fonts = {}
       @version = "1.2"
       # 概要の登録
       @info = Info.new(self)
       # カタログの登録
       @catalog = Catalog.new(self)
+      @catalog.version = @version
       # アウトライン群の登録
       outlines = Outlines.new(self)
       @catalog.outlines = outlines.reference
@@ -48,9 +47,9 @@ module Prune
       out << "%PDF-#{@version}"
       out << "%" + [0xE2, 0xE3, 0xCF, 0xD3].pack("c*")
       # Write objects
-      out += @object_list.collect{|object| object.to_s}
+      out += @elements.collect{|element| element.to_s}
       # Write cross-reference table
-      out += cross_reference_table(@object_list.size, out.join(LF))
+      out += cross_reference_table(@elements.size, out.join(LF))
       # Write trailer
       out += trailer(out.join(LF))
       out << "%%EOF"
@@ -77,7 +76,7 @@ module Prune
       id = Digest::MD5.hexdigest(rand.to_s)
       out << "trailer"
       dict = pd!(
-        pn!(:Size) => (@object_list.size + 1),
+        pn!(:Size) => (@elements.size + 1),
         pn!(:Root) => @catalog.reference,
         pn!(:Info) => @info.reference,
         pn!(:ID) => pa!(ph!(id), ph!(id)))

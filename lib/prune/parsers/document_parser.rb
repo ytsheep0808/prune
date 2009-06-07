@@ -7,6 +7,7 @@ module Prune
         @document = document
       end
 
+      protected
       def property(&block)
         unless @property_parser
           @property_parser = PropertyParser.new(@document)

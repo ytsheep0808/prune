@@ -5,7 +5,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../lib/prune"))
 Prune.pdf("english_fonts.pdf"){
   property{
     title "English fonts"
-    author "DEMO"
+    subject "Demonstration document for Prune."
+    author "Prune"
+    language "en-US"
   }
 
   alphabets = "abcdefghijklmnopqrstuvwxyz"

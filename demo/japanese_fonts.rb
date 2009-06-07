@@ -5,7 +5,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), "../lib/prune"))
 Prune.pdf("japanese_fonts.pdf"){
   property{
     title "Japanese fonts"
-    author "DEMO"
+    subject "Demonstration document for Prune."
+    author "Prune"
+    language "ja-JP"
   }
 
   hiragana = "あいうえおかきくけこさしすせそたちつてとなにぬねの\n"\
@@ -16,14 +18,14 @@ Prune.pdf("japanese_fonts.pdf"){
   sentence = "Pruneは日本語を正しく出力できるPDFライブラリです。"
   sample = [hiragana, katakana, numbers, sentence].join("\n") + "\n"
 
-  page(:A4W, :font => :ms_gothic, :bold => true, :font_size => 20){
+  page(:A4W, :font => :ms_gothic, :bold => true, :font_size => 30){
     text "ＭＳゴシック"
     text sample, :font => :ms_gothic
     text "ＭＳゴシック＋太字"
     text sample, :font => :ms_gothic, :bold => true
   }
   
-  page(:A4W, :font => :ms_gothic, :bold => true, :font_size => 20){
+  page(:A4W, :font => :ms_gothic, :bold => true, :font_size => 30){
     text "ＭＳゴシック＋斜体"
     text sample, :font => :ms_gothic, :italic => true
     text "ＭＳゴシック＋太字＋斜体"

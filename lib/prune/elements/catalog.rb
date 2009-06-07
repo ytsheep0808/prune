@@ -26,11 +26,15 @@ module Prune
       end
 
       def lang=(lang)
-        @content.update(pn!(:Lang) => lang)
+        @content[pn!(:Lang)] = lang
+      end
+
+      def version=(version)
+        @content[pn!(:Version)] = version
       end
 
       def pages=(pages)
-        @content.update(pn!(:Pages) => pages)
+        @content[pn!(:Pages)] = pages
       end
     end
   end

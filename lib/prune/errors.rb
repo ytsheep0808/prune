@@ -5,7 +5,6 @@ module Prune
     class ObjectNotRegisteredError < StandardError; end
     class BlockNotGivenError < StandardError; end
     class TableFormatError < StandardError; end
-    class ArgumentError < StandardError; end
     class DocumentSizeError < StandardError; end
     class ColorFormatError < StandardError; end
 

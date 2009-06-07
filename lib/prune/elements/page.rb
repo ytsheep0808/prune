@@ -14,9 +14,6 @@ module Prune
           pn!(:Contents) => @stream.reference,
           pn!(:Resources) => pd!(
             pn!(:ProcSet) => @document.proc_set.reference))
-        @font = nil
-        @font_size = 12
-        @pos = [mm2pt(5), mm2pt(5)]
         register
       end
 
@@ -25,7 +22,12 @@ module Prune
         @stream.stream
       end
 
-      # Get height of the document.
+      # Get width of the page.
+      def width
+        @content[pn!(:MediaBox)][2]
+      end
+
+      # Get height of the page.
       def height
         @content[pn!(:MediaBox)][3]
       end
@@ -40,31 +42,6 @@ module Prune
         unless @content[pn!(:Resources)][pn!(:Font)].has_key?(key)
           @content[pn!(:Resources)][pn!(:Font)].update(key => font.reference)
         end
-      end
-
-      # Set writing position.
-      def set_pos(x, y)
-        @pos = [mm2pt(x), mm2pt(y)]
-      end
-
-      # Write text without line feed at the end of the line.
-      def write(text, pos = nil)
-        raise FontNotSpecifiedError unless @font
-        raise FontNotSpecifiedError unless @font_size
-        # Update position if given
-        if pos.is_a?(Array) && pos.size == 2
-          @pos = pos.collect{|xy| mm2pt(xy)}
-        end
-        # Initialize handler
-        handler = TextHandler.new(self)
-        handler.write(text, @font, @font_size, @pos)
-      end
-
-      # Write text with line feed at the end of the line.
-      def puts(text, pos = nil)
-        write(text, pos)
-        # Set position to next row
-        @pos[1] += @font_size * (text.count("\n") + 1)
       end
 
       # Write a table.

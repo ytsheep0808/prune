@@ -7,10 +7,8 @@ README.ja.rdoc
 README.rdoc
 Rakefile
 demo/english_fonts.rb
-demo/english_fonts_old.rb
 demo/japanese_fonts.rb
 demo/table.rb
-demo/test.rb
 lib/prune.rb
 lib/prune/constants.rb
 lib/prune/document.rb
@@ -27,6 +25,7 @@ lib/prune/elements/stream.rb
 lib/prune/errors.rb
 lib/prune/fonts/base.rb
 lib/prune/fonts/base_en.rb
+lib/prune/fonts/base_ja.rb
 lib/prune/fonts/en/courier.rb
 lib/prune/fonts/en/helvetica.rb
 lib/prune/fonts/en/symbol.rb
@@ -34,9 +33,6 @@ lib/prune/fonts/en/times_roman.rb
 lib/prune/fonts/en/zapf_dingbats.rb
 lib/prune/fonts/ja/jp_default.rb
 lib/prune/fonts/ja/ms_gothic.rb
-lib/prune/fonts/ja/ms_gothic_bold.rb
-lib/prune/fonts/ja/ms_gothic_bold_italic.rb
-lib/prune/fonts/ja/ms_gothic_italic.rb
 lib/prune/functions.rb
 lib/prune/handlers/base.rb
 lib/prune/handlers/draw_handler.rb
@@ -51,10 +47,8 @@ lib/prune/p_objects/p_name.rb
 lib/prune/p_objects/p_stream.rb
 lib/prune/parsers/base.rb
 lib/prune/parsers/document/page_parser.rb
-lib/prune/parsers/document/properties/description_parser.rb
-lib/prune/parsers/document/properties_parser.rb
+lib/prune/parsers/document/property_parser.rb
 lib/prune/parsers/document_parser.rb
-lib/test.rb
 script/console
 script/console.cmd
 script/destroy

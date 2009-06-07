@@ -25,6 +25,7 @@ module Prune
         @y -= @default_font_size
       end
 
+      protected
       # Set X position by millimeter.
       def set_x(x)
         raise PositionError unless x.kind_of?(Numeric)
@@ -49,6 +50,11 @@ module Prune
         @default_font_size = options[:font_size] if options[:font_size]
       end
 
+      # div tag.
+      def div(text, options = {})
+
+      end
+      
       # Write text.
       def text(text, options = {})
         # Set font.
@@ -80,13 +86,13 @@ module Prune
         font_class = constantize_font_by_symbol(symbol)
         font_key = font_class.key(options)
         # Check for font in font list.
-        unless @document.font_hash.has_key?(font_key)
+        unless @document.fonts.has_key?(font_key)
           # Create font instance.
           font = font_class.new(@document, options)
-          @document.font_hash[font_key] = font
+          @document.fonts[font_key] = font
         else
           # Get font instance from font hash.
-          font = @document.font_hash[font_key]
+          font = @document.fonts[font_key]
         end
         @page.set_font(font_key, font)
         font
@@ -112,9 +118,9 @@ module Prune
       def decode(font, text)
         case font.encoding
         when pn!(:StandardEncoding)
-          "(%s)" % text
+          pl!(text)
         when pn!("UniJIS-UCS2-H")
-          "<%s>" % text.toutf16.unpack("C*").collect{|c| "%02X" % c}.join("")
+          ph!(text.toutf16.unpack("C*").collect{|c| "%02X" % c}.join)
         else
           raise UnknownEncodingError
         end
