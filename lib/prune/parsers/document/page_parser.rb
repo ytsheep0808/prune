@@ -14,12 +14,13 @@ module Prune
         # Add page to pages.
         @document.pages << @page
         # Initialize page variables
-        if options[:font]
-          @default_font = symbol_to_font(options[:font], options)
-        else
-          @default_font = nil
-        end
+        @default_font_sym = options[:font] || nil
+        @default_font_bold = options[:bold] || false
+        @default_font_italic = options[:italic] || false
         @default_font_size = options[:font_size] || 12
+        @default_font_mode = options[:font_mode] || :fill
+        @default_fill_color = options[:fill_color] || "#000000"
+        @default_stroke_color = options[:stroke_color] || "#000000"
         # Set default text position.
         set_xy(5, 5)
         @y -= @default_font_size
@@ -58,18 +59,32 @@ module Prune
       # Write text.
       def text(text, options = {})
         # Set font.
-        font = options[:font] ?
-          symbol_to_font(options[:font], options) : @default_font
+        font_sym = options[:font] || @default_font_sym
+        font_bold = options[:bold].nil? ?
+          @default_font_bold : options[:bold]
+        font_italic = options[:italic].nil? ?
+          @default_font_italic : options[:italic]
+        font = symbol_to_font(font_sym,
+          :bold => font_bold, :italic => font_italic)
         raise FontNotSpecifiedError unless font
         # Set font size.
         font_size = options[:font_size] || @default_font_size
+        # Set stroke color.
+        stroke_color = options[:stroke_color] || @default_stroke_color
+        # Set fill color.
+        fill_color = options[:fill_color] || @default_fill_color
+        # Set font mode.
+        font_mode = options[:font_mode] || @default_font_mode
         # Write text.
         text.split("\n").each do |token|
           if token.size > 0
+            @stream << "%s RG" % convert_color(stroke_color)
+            @stream << "%s rg" % convert_color(fill_color)
             @stream << "BT"
             decoded_text = decode(font, token)
             @stream << "%s %d Tf" % [font.name, font_size]
             @stream << "%d %d Td" % [@x, @y]
+            @stream << "%d Tr" % convert_font_mode(font_mode)
             @stream << "%s Tj" % decoded_text
             @stream << "ET"
           end
@@ -115,6 +130,28 @@ module Prune
         end
       end
 
+      def convert_color(color_str)
+        raise ColorError unless color_str.instance_of?(String)
+        raise ColorError unless /\A#[0-9a-fA-F]{6}\z/ === color_str
+        r = color_str[1,2].to_i(16) / 255.0
+        g = color_str[3,2].to_i(16) / 255.0
+        b = color_str[5,2].to_i(16) / 255.0
+        "%.2f %.2f %.2f" % [r, g, b]
+      end
+
+      def convert_font_mode(mode)
+        case mode
+        when :fill
+          0
+        when :stroke
+          1
+        when :fill_and_stroke
+          2
+        else
+          raise FontModeError
+        end
+      end
+      
       def decode(font, text)
         case font.encoding
         when pn!(:StandardEncoding)

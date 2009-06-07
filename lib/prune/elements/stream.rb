@@ -16,7 +16,7 @@ module Prune
         @content[pn!(:Length)] = @stream.length
         # 文字列の出力
         out = []
-        out << "%d %d obj" % [@element_id, @revision]
+        out << "#{@element_id} #{@revision} obj"
         out << @content.to_s
         out << @stream.to_s
         out << "endobj"

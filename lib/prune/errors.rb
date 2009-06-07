@@ -2,7 +2,7 @@
 module Prune
   module Errors
     class UnknownEncodingError < StandardError; end
-    class ObjectNotRegisteredError < StandardError; end
+    class ElementNotRegisteredError < StandardError; end
     class BlockNotGivenError < StandardError; end
     class TableFormatError < StandardError; end
     class DocumentSizeError < StandardError; end
@@ -41,5 +41,9 @@ module Prune
     class FontDescriptorFlagError < StandardError;end
     # Position error
     class PositionError < StandardError;end
+    # Color error.
+    class ColorError < StandardError;end
+    # Font mode error.
+    class FontModeError < StandardError;end
   end
 end

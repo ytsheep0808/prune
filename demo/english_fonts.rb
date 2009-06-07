@@ -14,7 +14,7 @@ Prune.pdf("english_fonts.pdf"){
   numbers = "0123456789"
   sample = alphabets + " " + numbers + "\n" + alphabets.upcase + "\n"
 
-  page(:A4W, :font => :helvetica, :font_size => 30, :bold => true){
+  page(:A4W, :font => :helvetica, :font_size => 30){
     text "* Courier"
     text sample, :font => :courier
     text "* Courier Bold"
@@ -25,18 +25,18 @@ Prune.pdf("english_fonts.pdf"){
     text sample, :font => :courier, :bold => true, :italic => true
   }
 
-  page(:A4W, :font => :helvetica, :font_size => 30, :bold => true){
+  page(:A4W, :font => :helvetica, :font_size => 30){
     text "* Helvetica"
-    text sample, :font => :helvetica
+    text sample
     text "* Helvetica Bold"
-    text sample, :font => :helvetica, :bold => true
+    text sample, :bold => true
     text "* Helvetica Italic"
-    text sample, :font => :helvetica, :italic => true
+    text sample, :italic => true
     text "* Helvetica Italic"
-    text sample, :font => :helvetica, :bold => true, :italic => true
+    text sample, :bold => true, :italic => true
   }
 
-  page(:A4W, :font => :helvetica, :font_size => 30, :bold => true){
+  page(:A4W, :font => :helvetica, :font_size => 30){
     text "* Times Roman"
     text sample, :font => :times_roman
     text "* Times Roman Bold"
@@ -47,7 +47,7 @@ Prune.pdf("english_fonts.pdf"){
     text sample, :font => :times_roman, :bold => true, :italic => true
   }
 
-  page(:A4W, :font => :helvetica, :font_size => 30, :bold => true){
+  page(:A4W, :font => :helvetica, :font_size => 30){
     text "* Symbol"
     text sample, :font => :symbol
     text "* Zapf Dingbats"

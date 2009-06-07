@@ -20,12 +20,21 @@ module Prune
             [true, false, nil].include?(options[:italic])
           options[:italic] || false
         end
+
+        # Get font name.
+        def font_name
+          class_name = self.to_s.gsub(/\A.*::/, "")
+          class_name.gsub(/\A(.)/){$1.downcase}.gsub(/([A-Z])/){"_#{$1.downcase}"}
+        end
       end
+
+      attr_reader :font_name
 
       # Initialize.
       def initialize(document)
         @document = document
         @main_element = nil
+        @font_name = self.class.font_name
       end
 
       # Get reference of the font.
@@ -41,6 +50,11 @@ module Prune
       # Get encoding of the font.
       def encoding
         @main_element.encoding
+      end
+
+      # Get font symbol.
+      def font_sym
+        @font_name.to_sym
       end
 
       private

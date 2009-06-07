@@ -5,7 +5,7 @@ module Prune
     class Courier < BaseEn
       class << self
         def key(options)
-          key = "courier"
+          key = font_name
           key << "_bold" if bold?(options)
           key << "_italic" if italic?(options)
           PObjects.pn!(key)

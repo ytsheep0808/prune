@@ -5,7 +5,7 @@ module Prune
     class TimesRoman < BaseEn
       class << self
         def key(options)
-          key = "times_roman"
+          key = font_name
           key << "_bold" if bold?(options)
           key << "_italic" if italic?(options)
           PObjects.pn!(key)
@@ -14,6 +14,7 @@ module Prune
 
       def initialize(document, options = {})
         super(document)
+        @font_name = :times_roman
         self.name = self.class.key(options)
         if bold?(options) && italic?(options)
           self.base_font = pn!("Times-BoldItalic")

@@ -6,7 +6,7 @@ module Prune
       class << self
         def key(options)
           FontOptionError if bold?(options) || italic?(options)
-          PObjects.pn!(:symbol)
+          PObjects.pn!(font_name)
         end
       end
 

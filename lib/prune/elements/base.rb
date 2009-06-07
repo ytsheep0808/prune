@@ -16,17 +16,12 @@ module Prune
       end
 
       def to_s
-        raise ObjectNotRegisteredError unless @registered
+        raise ElementNotRegisteredError unless @registered
         out = []
         out << "%d %d obj" % [@element_id, @revision]
         out << @content.to_s
         out << "endobj"
         return out.join(LF)
-      end
-
-      def element_id
-        raise ObjectNotRegisteredError unless @registered
-        @element_id
       end
 
       def reference
