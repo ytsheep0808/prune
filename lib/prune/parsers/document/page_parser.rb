@@ -11,16 +11,26 @@ module Prune
         # Create a new page.
         @page = Page.new(@document, DOCUMENT_SIZE[size])
         @stream = @page.stream
+
         # Add page to pages.
         @document.pages << @page
+
         # Initialize page variables
-        @default_font_sym = options[:font] || nil
-        @default_font_bold = options[:bold] || false
-        @default_font_italic = options[:italic] || false
-        @default_font_size = options[:font_size] || 12
-        @default_font_mode = options[:font_mode] || :fill
-        @default_fill_color = options[:fill_color] || "#000000"
-        @default_stroke_color = options[:stroke_color] || "#000000"
+        @default_font_sym = @font_sym =
+          options[:font] || nil
+        @default_font_bold = @font_bold =
+          options[:bold] || false
+        @default_font_italic = @font_italic =
+          options[:italic] || false
+        @default_font_size = @font_size =
+          options[:font_size] || 12
+        @default_font_mode = @font_mode =
+          options[:font_mode] || :fill
+        @default_fill_color = @fill_color =
+          options[:fill_color] || "#000000"
+        @default_stroke_color = @stroke_color =
+          options[:stroke_color] || "#000000"
+
         # Set default text position.
         set_xy(5, 5)
         @y -= @default_font_size
@@ -69,53 +79,59 @@ module Prune
         @y = orig_y
       end
 
+      # Br tag.
+      def br
+        @x = mm2pt(5)
+        @y -= @font_size
+      end
+
       private
       # Write text.
       def text(string, options)
         # Set font.
-        font_sym = options[:font] || @default_font_sym
-        font_bold = options[:bold].nil? ?
+        @font_sym = options[:font] || @default_font_sym
+        @font_bold = options[:bold].nil? ?
           @default_font_bold : options[:bold]
-        font_italic = options[:italic].nil? ?
+        @font_italic = options[:italic].nil? ?
           @default_font_italic : options[:italic]
-        font = symbol_to_font(font_sym,
-          :bold => font_bold, :italic => font_italic)
-        raise FontNotSpecifiedError unless font
+        @font = symbol_to_font(@font_sym,
+          :bold => @font_bold, :italic => @font_italic)
+        raise FontNotSpecifiedError unless @font
         # Set font size.
-        font_size = options[:font_size] || @default_font_size
+        @font_size = options[:font_size] || @default_font_size
         # Set stroke color.
-        stroke_color = options[:stroke_color] || @default_stroke_color
+        @stroke_color = options[:stroke_color] || @default_stroke_color
         # Set fill color.
-        fill_color = options[:fill_color] || @default_fill_color
+        @fill_color = options[:fill_color] || @default_fill_color
         # Set font mode.
-        font_mode = options[:font_mode] || @default_font_mode
+        @font_mode = options[:font_mode] || @default_font_mode
         # Write text.
         max_length = 0
         string.split("\n").each do |token|
           length = token.size
           if length > 0
             max_length = length if max_length < length
-            @stream << "%s RG" % convert_color(stroke_color)
-            @stream << "%s rg" % convert_color(fill_color)
+            @stream << "%s RG" % convert_color(@stroke_color)
+            @stream << "%s rg" % convert_color(@fill_color)
             @stream << "BT"
-            decoded_text = decode(font, token)
-            @stream << "%s %d Tf" % [font.name, font_size]
+            decoded_text = decode(@font, token)
+            @stream << "%s %d Tf" % [@font.name, @font_size]
             @stream << "%d %d Td" % [@x, @y]
-            @stream << "%d Tr" % convert_font_mode(font_mode)
+            @stream << "%d Tr" % convert_font_mode(@font_mode)
             @stream << "%s Tj" % decoded_text
             @stream << "ET"
           end
-          @y -= font_size
+          @y -= @font_size
         end
         # Calculate width.
-        case font.encoding
+        case @font.encoding
         when pn!(:StandardEncoding)
-          width = max_length * font_size / 4
+          width = max_length * @font_size / 4
         else
-          width = max_length * font_size / 2
+          width = max_length * @font_size / 2
         end
         # Calculate height.
-        height = (string.count("\n") + 1) * font_size
+        height = (string.count("\n") + 1) * @font_size
         [width, height]
       end
 

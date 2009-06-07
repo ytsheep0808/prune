@@ -23,5 +23,9 @@ Prune.pdf("text_decoration.pdf"){
     span "赤色の文字", :fill_color => "#FF0000"
     span "黄色の文字", :fill_color => "#FFFF00"
     span "青色の文字", :fill_color => "#0000FF"
+    br
+    span "赤色の文字", :fill_color => "#FF0000"
+    span "黄色の文字", :fill_color => "#FFFF00"
+    span "青色の文字", :fill_color => "#0000FF"
   }
 }
