@@ -51,13 +51,27 @@ module Prune
         @default_font_size = options[:font_size] if options[:font_size]
       end
 
-      # div tag.
-      def div(text, options = {})
-
+      # Div tag.
+      def div(string, options = {})
+        orig_x = @x
+        orig_y = @y
+        width, height = text(string, options)
+        @x = orig_x
+        @y = orig_y - height
       end
-      
+
+      # Span tag.
+      def span(string, options = {})
+        orig_x = @x
+        orig_y = @y
+        width, height = text(string, options)
+        @x = orig_x + width
+        @y = orig_y
+      end
+
+      private
       # Write text.
-      def text(text, options = {})
+      def text(string, options)
         # Set font.
         font_sym = options[:font] || @default_font_sym
         font_bold = options[:bold].nil? ?
@@ -76,7 +90,7 @@ module Prune
         # Set font mode.
         font_mode = options[:font_mode] || @default_font_mode
         # Write text.
-        text.split("\n").each do |token|
+        string.split("\n").each do |token|
           if token.size > 0
             @stream << "%s RG" % convert_color(stroke_color)
             @stream << "%s rg" % convert_color(fill_color)
@@ -90,12 +104,11 @@ module Prune
           end
           @y -= font_size
         end
-        if /[\r|\n]+\z/.match(text)
-          @y -= $~[0].count("\n") * font_size
-        end
+        width = 0
+        height = (string.count("\n") + 1) * font_size
+        [width, height]
       end
 
-      private
       # Get font object by symbol.
       def symbol_to_font(symbol, options = {})
         font_class = constantize_font_by_symbol(symbol)

@@ -19,16 +19,16 @@ Prune.pdf("japanese_fonts.pdf"){
   sample = [hiragana, katakana, numbers, sentence].join("\n") + "\n"
 
   page(:A4W, :font => :ms_gothic, :bold => true, :font_size => 30){
-    text "ＭＳゴシック"
-    text sample, :bold => false
-    text "ＭＳゴシック＋太字"
-    text sample
+    div "ＭＳゴシック"
+    div sample, :bold => false
+    div "ＭＳゴシック＋太字"
+    div sample
   }
   
   page(:A4W, :font => :ms_gothic, :bold => true, :font_size => 30){
-    text "ＭＳゴシック＋斜体"
-    text sample, :bold => false, :italic => true
-    text "ＭＳゴシック＋太字＋斜体"
-    text sample, :italic => true
+    div "ＭＳゴシック＋斜体"
+    div sample, :bold => false, :italic => true
+    div "ＭＳゴシック＋太字＋斜体"
+    div sample, :italic => true
   }
 }
