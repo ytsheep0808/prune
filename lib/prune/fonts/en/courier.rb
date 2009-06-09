@@ -25,6 +25,11 @@ module Prune
           self.base_font = pn!(:Courier)
         end
       end
+
+      # Get width of the text.
+      def width(string, height)
+        string.size * 600 * height / 1000
+      end
     end
   end
 end
