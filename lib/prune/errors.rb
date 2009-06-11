@@ -49,5 +49,7 @@ module Prune
     class NonAsciiStringError < StandardError;end
     # Hankaku katakana used for string.
     class HankakuKatakanaError < StandardError;end
+    # Text align should be :left, :center, or :right.
+    class TextAlignError < StandardError;end
   end
 end

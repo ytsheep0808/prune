@@ -27,5 +27,11 @@ Prune.pdf("text_decoration.pdf"){
     span "赤色の文字", :fill_color => "#FF0000"
     span "黄色の文字", :fill_color => "#FFFF00"
     span "青色の文字", :fill_color => "#0000FF"
+    br
+    div "背景色が設定された文字列", :background_color => "#FFFF00"
+    br
+    div "左寄せ", :text_align => :left, :background_color => "#FF0000"
+    div "センタリング", :text_align => :center, :background_color => "#FFFF00"
+    div "右寄せ", :text_align => :right, :background_color => "#0000FF"
   }
 }

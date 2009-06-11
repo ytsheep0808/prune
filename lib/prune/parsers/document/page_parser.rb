@@ -30,6 +30,10 @@ module Prune
           options[:fill_color] || "#000000"
         @default_stroke_color = @stroke_color =
           options[:stroke_color] || "#000000"
+        @default_background_color = @background_color =
+          options[:background_color] || nil
+        @default_text_align = @text_align =
+          options[:text_align] || :left
 
         # Set default text position.
         set_xy(5, 5)
@@ -64,6 +68,7 @@ module Prune
       def div(string, options = {})
         orig_x = @x
         orig_y = @y
+        options[:width] = @page.width - mm2pt(10)
         width, height = text(string, options)
         @x = orig_x
         @y = orig_y - height
@@ -81,10 +86,10 @@ module Prune
       # Br tag.
       def br
         @x = mm2pt(5)
-        @y -= @font_size
+        @y -= @font_size + (@font_size / 5)
       end
 
-      private
+      private  
       # Write text.
       def text(string, options)
         # Save original position.
@@ -114,22 +119,34 @@ module Prune
         @fill_color = options[:fill_color] || @default_fill_color
         # Set font mode.
         @font_mode = options[:font_mode] || @default_font_mode
+        # Set background color.
+        @background_color = options[:background_color] || @default_background_color
+        # Text align.
+        @text_align = options[:text_align] || @default_text_align
+        # Border
         # Get width and height of the text.
         width, height = width_and_height(string, @font, @font_size)
-        # Fill background.
+        width = options[:width] if options[:width]
+        height = options[:height] if options[:height]
+        # Start stream.
         @stream << "q"
-        @stream << "%s RG" % convert_color("#FF0000")
-        @stream << "#{orig_x} #{orig_y} #{width} #{-height} re"
-        @stream << "s"
+        # Fill background.
+        if @background_color
+          fill_background(orig_x, orig_y, width, height, @background_color)
+        end
         # Write text.
         current_y -= @font_size
         string.scan(/([^\n]*)\n/) do |token|
           if token[0].size > 0
+            string_width = @font.width(token[0], @font_size)
             @stream << "%s RG" % convert_color(@stroke_color)
             @stream << "%s rg" % convert_color(@fill_color)
             @stream << "BT"
             @stream << "%s %d Tf" % [@font.name, @font_size]
-            @stream << "%d %d Td" % [current_x, current_y]
+            position = [current_x, current_y]
+            position[0] = convert_text_align(
+              string_width, width, current_x, @text_align)
+            @stream << "%.2f %.2f Td" % position
             @stream << "%d Tr" % convert_font_mode(@font_mode)
             @stream << "%s Tj" % @font.decode(token[0])
             @stream << "ET"
@@ -138,6 +155,13 @@ module Prune
         end
         @stream << "Q"
         [width, height]
+      end
+
+      # Fill background.
+      def fill_background(x, y, width, height, color)
+        @stream << "%s rg" % convert_color(color)
+        @stream << "#{x} #{y} #{width} #{-height} re"
+        @stream << "f"
       end
 
       # Get font object by symbol.
@@ -193,6 +217,25 @@ module Prune
           2
         else
           raise FontModeError
+        end
+      end
+
+      # Text align.
+      def convert_text_align(string_width, width, x, text_align)
+        # Do nothing when left alignment is given.
+        return x if text_align == :left
+        # Do nothing when no width is given.
+        return x unless width
+        # Do nothing when string width is smaller than width.
+        return x if width <= string_width
+        # Calculate x positions.
+        case text_align
+        when :center
+          (width - string_width) / 2.0
+        when :right
+          width - string_width
+        else
+          raise TextAlignError
         end
       end
 
