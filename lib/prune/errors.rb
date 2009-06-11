@@ -51,5 +51,7 @@ module Prune
     class HankakuKatakanaError < StandardError;end
     # Text align should be :left, :center, or :right.
     class TextAlignError < StandardError;end
+    # Errors on options for border.
+    class BorderOptionError < StandardError;end
   end
 end

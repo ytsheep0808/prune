@@ -30,8 +30,6 @@ module Prune
           options[:fill_color] || "#000000"
         @default_stroke_color = @stroke_color =
           options[:stroke_color] || "#000000"
-        @default_background_color = @background_color =
-          options[:background_color] || nil
         @default_text_align = @text_align =
           options[:text_align] || :left
 
@@ -119,21 +117,23 @@ module Prune
         @fill_color = options[:fill_color] || @default_fill_color
         # Set font mode.
         @font_mode = options[:font_mode] || @default_font_mode
-        # Set background color.
-        @background_color = options[:background_color] || @default_background_color
         # Text align.
         @text_align = options[:text_align] || @default_text_align
-        # Border
         # Get width and height of the text.
         width, height = width_and_height(string, @font, @font_size)
         width = options[:width] if options[:width]
         height = options[:height] if options[:height]
+        boundary = [orig_x, orig_y, width, height]
         # Start stream.
         @stream << "q"
         # Fill background.
-        if @background_color
-          fill_background(orig_x, orig_y, width, height, @background_color)
-        end
+        fill_background(boundary, options)
+        # Draw borders.
+        draw_rect_border(boundary, options)
+        draw_top_border(boundary, options)
+        draw_left_border(boundary, options)
+        draw_right_border(boundary, options)
+        draw_bottom_border(boundary, options)
         # Write text.
         current_y -= @font_size
         string.scan(/([^\n]*)\n/) do |token|
@@ -158,10 +158,96 @@ module Prune
       end
 
       # Fill background.
-      def fill_background(x, y, width, height, color)
+      def fill_background(boundary, options)
+        color = options[:background_color]
+        return unless color
         @stream << "%s rg" % convert_color(color)
-        @stream << "#{x} #{y} #{width} #{-height} re"
+        @stream << "%.2f %.2f %.2f %.2f re" % 
+          [boundary[0], boundary[1], boundary[2], -boundary[3]]
         @stream << "f"
+      end
+
+      # Draw rectangular border.
+      def draw_rect_border(boundary, options)
+        return unless options[:border]
+        return if options[:border_top]
+        return if options[:border_left]
+        return if options[:border_right]
+        return if options[:border_bottom]
+        style = options[:border][:style] || :none
+        width = options[:border][:width] || 1.0
+        color = options[:border][:color] || "#000000"
+        return if style == :none
+        case style
+        when :solid
+          @stream << "[] 0 d"
+        when :dashed
+          @stream << "[4 5] 0 d"
+        else
+          raise BorderOptionError
+        end
+        @stream << "2 J"
+        @stream << "0 j"
+        @stream << "%s RG" % convert_color(color)
+        @stream << "%.2f w" % width
+        @stream << "%.2f %.2f %.2f %.2f re" %
+          [boundary[0], boundary[1], boundary[2], -boundary[3]]
+        @stream << "s"
+      end
+
+      # Draw top border.
+      def draw_top_border(boundary, options)
+        return unless options[:border_top]
+        from = [boundary[0], boundary[1]]
+        to = [boundary[0] + boundary[2], boundary[1]]
+        draw_single_border(from, to, options[:border_top])
+      end
+
+      # Draw left border.
+      def draw_left_border(boundary, options)
+        return unless options[:border_left]
+        from = [boundary[0], boundary[1]]
+        to = [boundary[0], boundary[1] - boundary[3]]
+        draw_single_border(from, to, options[:border_left])
+      end
+
+      # Draw right border.
+      def draw_right_border(boundary, options)
+        return unless options[:border_right]
+        from = [boundary[0] + boundary[2], boundary[1]]
+        to = [boundary[0] + boundary[2], boundary[1] - boundary[3]]
+        draw_single_border(from, to, options[:border_right])
+      end
+
+      # Draw bottom border.
+      def draw_bottom_border(boundary, options)
+        return unless options[:border_bottom]
+        from = [boundary[0], boundary[1] - boundary[3]]
+        to = [boundary[0] + boundary[2], boundary[1] - boundary[3]]
+        draw_single_border(from, to, options[:border_bottom])
+      end
+
+      # Draw single border.
+      def draw_single_border(from, to, options)
+        style = options[:style] || :none
+        width = options[:width] || 1.0
+        color = options[:color] || "#000000"
+        return if style == :none
+        case style
+        when :solid
+          @stream << "[] 0 d"
+        when :dashed
+          @stream << "[5 5] 0 d"
+        else
+          raise BorderOptionError
+        end
+        @stream << "2 J"
+        @stream << "0 j"
+        @stream << "%s RG" % convert_color(color)
+        @stream << "%.2f w" % width
+        @stream << "%.2f %.2f m" % from
+        @stream << "%.2f %.2f l" % to
+        @stream << "s"
       end
 
       # Get font object by symbol.

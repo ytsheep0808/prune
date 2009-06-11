@@ -34,4 +34,17 @@ Prune.pdf("text_decoration.pdf"){
     div "センタリング", :text_align => :center, :background_color => "#FFFF00"
     div "右寄せ", :text_align => :right, :background_color => "#0000FF"
   }
+  page(:A4W, :font => :ms_gothic, :font_size => 30){
+    div "枠をつけてみる", :text_align => :center,
+      :border => {:style => :solid}
+    br
+    div "破線で\n枠をつけてみる", :text_align => :center,
+      :border => {:style => :dashed, :width => 2.0, :color => "#00FF00"}
+    br
+    div "全ての枠に\n違うスタイルを\n適用する", :text_align => :right,
+      :border_top => {:style => :solid, :width => 2.0, :color => "#FF0000"},
+      :border_left => {:style => :dashed, :width => 1.0, :color => "#00FF00"},
+      :border_right => {:style => :solid},
+      :border_bottom => {:style => :dashed, :color => "#0000FF"}
+  }
 }
