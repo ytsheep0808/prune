@@ -45,5 +45,9 @@ module Prune
     class ColorError < StandardError;end
     # Font mode error.
     class FontModeError < StandardError;end
+    # Ascii font used for non-ascii string.
+    class NonAsciiStringError < StandardError;end
+    # Hankaku katakana used for string.
+    class HankakuKatakanaError < StandardError;end
   end
 end

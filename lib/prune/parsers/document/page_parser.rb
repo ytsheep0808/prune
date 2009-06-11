@@ -33,7 +33,6 @@ module Prune
 
         # Set default text position.
         set_xy(5, 5)
-        @y -= @default_font_size
       end
 
       protected
@@ -88,6 +87,16 @@ module Prune
       private
       # Write text.
       def text(string, options)
+        # Save original position.
+        orig_x = @x
+        orig_y = @y
+        # Define local variable for current x and y.
+        current_x = @x
+        current_y = @y
+        # Erase \r\n linefeeds and \r line feeds.
+        string.gsub!(/\r\n/, "\n")
+        string.gsub!(/\r/, "\n")
+        string += "\n" unless /\n\z/ === string
         # Set font.
         @font_sym = options[:font] || @default_font_sym
         @font_bold = options[:bold].nil? ?
@@ -105,33 +114,29 @@ module Prune
         @fill_color = options[:fill_color] || @default_fill_color
         # Set font mode.
         @font_mode = options[:font_mode] || @default_font_mode
+        # Get width and height of the text.
+        width, height = width_and_height(string, @font, @font_size)
+        # Fill background.
+        @stream << "q"
+        @stream << "%s RG" % convert_color("#FF0000")
+        @stream << "#{orig_x} #{orig_y} #{width} #{-height} re"
+        @stream << "s"
         # Write text.
-        max_length = 0
-        string.split("\n").each do |token|
-          length = token.size
-          if length > 0
-            max_length = length if max_length < length
+        current_y -= @font_size
+        string.scan(/([^\n]*)\n/) do |token|
+          if token[0].size > 0
             @stream << "%s RG" % convert_color(@stroke_color)
             @stream << "%s rg" % convert_color(@fill_color)
             @stream << "BT"
-            decoded_text = decode(@font, token)
             @stream << "%s %d Tf" % [@font.name, @font_size]
-            @stream << "%d %d Td" % [@x, @y]
+            @stream << "%d %d Td" % [current_x, current_y]
             @stream << "%d Tr" % convert_font_mode(@font_mode)
-            @stream << "%s Tj" % decoded_text
+            @stream << "%s Tj" % @font.decode(token[0])
             @stream << "ET"
           end
-          @y -= @font_size
+          current_y -= @font_size
         end
-        # Calculate width.
-        case @font.encoding
-        when pn!(:StandardEncoding)
-          width = max_length * @font_size / 4
-        else
-          width = max_length * @font_size / 2
-        end
-        # Calculate height.
-        height = (string.count("\n") + 1) * @font_size
+        @stream << "Q"
         [width, height]
       end
 
@@ -190,16 +195,21 @@ module Prune
           raise FontModeError
         end
       end
-      
-      def decode(font, text)
-        case font.encoding
-        when pn!(:StandardEncoding)
-          pl!(text)
-        when pn!("UniJIS-UCS2-H")
-          ph!(text.toutf16.unpack("C*").collect{|c| "%02X" % c}.join)
-        else
-          raise UnknownEncodingError
+
+      # Get width and height of the text.
+      def width_and_height(string, font, font_size)
+        width = 0
+        height = 0
+        string.scan(/([^\n]*)\n/) do |token|
+          height += font_size
+          token_width = font.width(token[0], font_size)
+          if token_width > width
+            width = token_width
+          end
         end
+        width += font_size / 10
+        height += font_size / 5
+        [width, height]
       end
     end
   end

@@ -1,4 +1,6 @@
 # coding:utf-8
+require "kconv"
+
 module Prune
   module Fonts
     # Base class for English fonts.
@@ -13,6 +15,14 @@ module Prune
             pn!(:Encoding) => pn!(:StandardEncoding)))
       end
 
+      # Decode string.
+      def decode(string)
+        raise NonAsciiStringError unless
+          Kconv.guess(string) == Kconv::ASCII
+        pl!(string)
+      end
+
+      private
       # Set font name.
       def name=(name)
         @main_element.name = name

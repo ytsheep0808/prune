@@ -146,8 +146,8 @@ module Prune
       end
 
       # Get width of the text.
-      def width(string, height)
-        string.bytes.inject(0){|result, byte|
+      def width(string, font_size)
+        string_base_width = string.bytes.inject(0){|result, byte|
           if @bold && @italic
             byte_width = BOLD_ITALIC_WIDTHS[byte] || 1000
           elsif @bold
@@ -158,7 +158,8 @@ module Prune
             byte_width = WIDTHS[byte] || 1000
           end
           result + byte_width
-        } * height / 1000
+        }
+        string_base_width * font_size / 1000
       end
     end
   end

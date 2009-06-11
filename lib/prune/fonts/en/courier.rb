@@ -27,8 +27,8 @@ module Prune
       end
 
       # Get width of the text.
-      def width(string, height)
-        string.size * 600 * height / 1000
+      def width(string, font_size)
+        string.size * 600 * font_size / 1000
       end
     end
   end

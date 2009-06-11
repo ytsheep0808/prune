@@ -70,7 +70,7 @@ module Prune
     @document = Document.new
     @document_parser = Parsers::DocumentParser.new(@document)
     @document_parser.instance_eval(&block)
-    puts @document.to_s
+    #puts @document.to_s
     @document.save_as(filename)
   end
 end
