@@ -15,19 +15,19 @@ Prune(プルーン)はPDF文書をRubyで作成するためのライブラリで
 
   require "prune"
   
-  Prune.pdf("test.pdf") do
-    preferences do
-      description do
-        version "1.4"
-        title "synopsis"
-        author "demo"
-      end
-    end
-  
-    page(:A4) do
-      
-    end
-  end
+  Prune.pdf("synopsis_jp.pdf"){
+    property{
+      title "Synopsis"
+      subject "Demonstration document for Prune."
+      author "Prune"
+      language "ja-JP"
+    }
+    
+    page(:A4W, :font => {:name => :ms_gothic, :size => 30}){
+      div "サンプルです。"
+      div "他の使い方の例はdemoディレクトリを見てください。"
+    }
+  }
 
 == REQUIREMENTS:
 

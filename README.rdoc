@@ -15,19 +15,19 @@ Prune is a library to build pdf documents in Ruby.
 
   require "prune"
   
-  Prune.pdf("test.pdf") do
-    preferences do
-      description do
-        version "1.4"
-        title "synopsis"
-        author "demo"
-      end
-    end
-  
-    page(:A4) do
-      
-    end
-  end
+  Prune.pdf("synopsys.pdf"){
+    property{
+      title "Synopsis"
+      subject "Demonstration document for Prune."
+      author "Prune"
+      language "en-US"
+    }
+    
+    page(:A4W, :font => {:name => :helvetica, :size => 30}){
+      div "Sample text."
+      div "Please see demo directory for more examples."
+    }
+  }
 
 == REQUIREMENTS:
 

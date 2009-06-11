@@ -21,8 +21,8 @@ Prune.pdf("japanese_encodings_shift_jis.pdf"){
     hiragana, katakana, alphabets, numbers, sentence
   ].join("\n") + "\n"
 
-  page(:A4W, :font => :ms_gothic, :bold => true, :font_size => 20){
+  page(:A4W, :font => {:name => :ms_gothic, :bold => true, :size => 20}){
     div "Shift-JIS‚Å‚Ì“ú–{Œêo—Í"
-    div sample, :bold => false
+    div sample, :font => {:bold => false}
   }
 }

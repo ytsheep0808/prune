@@ -3,6 +3,11 @@ module Prune
   module Parsers
     # Parser for directive "page".
     class PageParser < Base
+      FONT_OPTIONS = [
+        :name, :bold, :italic, :size, :mode,
+        :fill_color, :stroke_color
+      ] unless const_defined?(:FONT_OPTIONS)
+
       # Initialize.
       def initialize(document, size, options = {})
         @document = document
@@ -15,76 +20,74 @@ module Prune
         # Add page to pages.
         @document.pages << @page
 
-        # Initialize page variables
-        @default_font_sym = @font_sym =
-          options[:font] || nil
-        @default_font_bold = @font_bold =
-          options[:bold] || false
-        @default_font_italic = @font_italic =
-          options[:italic] || false
-        @default_font_size = @font_size =
-          options[:font_size] || 12
-        @default_font_mode = @font_mode =
-          options[:font_mode] || :fill
-        @default_fill_color = @fill_color =
-          options[:fill_color] || "#000000"
-        @default_stroke_color = @stroke_color =
-          options[:stroke_color] || "#000000"
-        @default_text_align = @text_align =
-          options[:text_align] || :left
-
-        # Set default text position.
-        set_xy(5, 5)
+        # Current variables will be set to this hash.
+        @variables = {}
+        # Default variables will be set to this hash.
+        @defaults = {}
+        # Initialize font variables
+        @variables[:font] = {}
+        @defaults[:font] = {}
+        @defaults[:font][:name] = nil
+        @defaults[:font][:bold] = false
+        @defaults[:font][:italic] = false
+        @defaults[:font][:size] = 12
+        @defaults[:font][:mode] = :fill
+        @defaults[:font][:fill_color] = "#000000"
+        @defaults[:font][:stroke_color] = "#000000"
+        if options[:font]
+          FONT_OPTIONS.each do |sym|
+            unless options[:font][sym].nil?
+              @defaults[:font][sym] = options[:font][sym]
+            end
+            @variables[:font][sym] = @defaults[:font][sym]
+          end
+        end
+        # Set default XY position.
+        self.x = 5
+        self.y = 5
       end
 
       protected
+      # Get X position by millimeter.
+      def x
+        pt2mm(@x)
+      end
+
       # Set X position by millimeter.
-      def set_x(x)
+      def x=(x)
         raise PositionError unless x.kind_of?(Numeric)
         @x = mm2pt(x)
       end
 
+      # Get Y position by millimeter.
+      def y
+        pt2mm(@y)
+      end
+
       # Set Y position by millimeter.
-      def set_y(y)
+      def y=(y)
         raise PositionError unless y.kind_of?(Numeric)
         @y = @page.height - mm2pt(y)
       end
 
-      # Set X and Y positions by millimeter.
-      def set_xy(x, y)
-        set_x(x)
-        set_y(y)
-      end
-
-      # Set default font.
-      def set_default_font(symbol, options)
-        @default_font = symbol_to_font(symbol, options)
-        @default_font_size = options[:font_size] if options[:font_size]
-      end
-
       # Div tag.
       def div(string, options = {})
-        orig_x = @x
-        orig_y = @y
         options[:width] = @page.width - mm2pt(10)
-        width, height = text(string, options)
-        @x = orig_x
-        @y = orig_y - height
+        boundary = text(string, options)
+        @y = boundary[1] - boundary[3]
       end
 
       # Span tag.
       def span(string, options = {})
-        orig_x = @x
-        orig_y = @y
-        width, height = text(string, options)
-        @x = orig_x + width
-        @y = orig_y
+        boundary = text(string, options)
+        @x = boundary[0] + boundary[2]
       end
 
       # Br tag.
       def br
-        @x = mm2pt(5)
-        @y -= @font_size + (@font_size / 5)
+        self.x = 5
+        font_size = @variables[:font][:size]
+        @y -= font_size + (font_size / 5)
       end
 
       private  
@@ -100,27 +103,24 @@ module Prune
         string.gsub!(/\r\n/, "\n")
         string.gsub!(/\r/, "\n")
         string += "\n" unless /\n\z/ === string
-        # Set font.
-        @font_sym = options[:font] || @default_font_sym
-        @font_bold = options[:bold].nil? ?
-          @default_font_bold : options[:bold]
-        @font_italic = options[:italic].nil? ?
-          @default_font_italic : options[:italic]
-        @font = symbol_to_font(@font_sym,
-          :bold => @font_bold, :italic => @font_italic)
-        raise FontNotSpecifiedError unless @font
-        # Set font size.
-        @font_size = options[:font_size] || @default_font_size
-        # Set stroke color.
-        @stroke_color = options[:stroke_color] || @default_stroke_color
-        # Set fill color.
-        @fill_color = options[:fill_color] || @default_fill_color
-        # Set font mode.
-        @font_mode = options[:font_mode] || @default_font_mode
+        # Parse font options
+        FONT_OPTIONS.each do |sym|
+          if options[:font] && !options[:font][sym].nil?
+            @variables[:font][sym] = options[:font][sym]
+          else
+            @variables[:font][sym] = @defaults[:font][sym]
+          end
+        end
+        font = symbol_to_font(@variables[:font][:name],
+          :bold => @variables[:font][:bold],
+          :italic => @variables[:font][:italic])
+        raise FontNotSpecifiedError unless font
+        # Save font size to local variable.
+        font_size = @variables[:font][:size]
         # Text align.
-        @text_align = options[:text_align] || @default_text_align
+        @variables[:text_align] = options[:text_align] || :left
         # Get width and height of the text.
-        width, height = width_and_height(string, @font, @font_size)
+        width, height = width_and_height(string, font, font_size)
         width = options[:width] if options[:width]
         height = options[:height] if options[:height]
         boundary = [orig_x, orig_y, width, height]
@@ -135,26 +135,30 @@ module Prune
         draw_right_border(boundary, options)
         draw_bottom_border(boundary, options)
         # Write text.
-        current_y -= @font_size
+        current_y -= font_size
         string.scan(/([^\n]*)\n/) do |token|
-          if token[0].size > 0
-            string_width = @font.width(token[0], @font_size)
-            @stream << "%s RG" % convert_color(@stroke_color)
-            @stream << "%s rg" % convert_color(@fill_color)
+          line = token[0]
+          if line.size > 0
+            line_width = font.width(line, font_size)
+            @stream << "%s RG" % convert_color(
+              @variables[:font][:stroke_color])
+            @stream << "%s rg" % convert_color(
+              @variables[:font][:fill_color])
             @stream << "BT"
-            @stream << "%s %d Tf" % [@font.name, @font_size]
+            @stream << "%s %d Tf" % [font.name, font_size]
             position = [current_x, current_y]
             position[0] = convert_text_align(
-              string_width, width, current_x, @text_align)
+              line_width, width, current_x, @variables[:text_align])
             @stream << "%.2f %.2f Td" % position
-            @stream << "%d Tr" % convert_font_mode(@font_mode)
-            @stream << "%s Tj" % @font.decode(token[0])
+            @stream << "%d Tr" % convert_font_mode(
+              @variables[:font][:mode])
+            @stream << "%s Tj" % font.decode(line)
             @stream << "ET"
           end
-          current_y -= @font_size
+          current_y -= font_size
         end
         @stream << "Q"
-        [width, height]
+        boundary
       end
 
       # Fill background.

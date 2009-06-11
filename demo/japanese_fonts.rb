@@ -21,19 +21,19 @@ Prune.pdf("japanese_fonts.pdf"){
     hiragana, katakana, alphabets, numbers, sentence
   ].join("\n") + "\n"
 
-  page(:A4W, :font => :ms_gothic, :bold => true, :font_size => 20){
+  page(:A4W, :font => {:name => :ms_gothic, :bold => true, :size => 25}){
     div "ＭＳゴシック"
-    div sample, :bold => false
+    div sample, :font => {:bold => false}
     br
     div "ＭＳゴシック＋太字"
     div sample
   }
   
-  page(:A4W, :font => :ms_gothic, :bold => true, :font_size => 20){
+  page(:A4W, :font => {:name => :ms_gothic, :bold => true, :size => 25}){
     div "ＭＳゴシック＋斜体"
-    div sample, :bold => false, :italic => true
+    div sample, :font => {:bold => false, :italic => true}
     br
     div "ＭＳゴシック＋太字＋斜体"
-    div sample, :italic => true
+    div sample, :font => {:italic => true}
   }
 }

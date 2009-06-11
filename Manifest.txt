@@ -7,8 +7,11 @@ README.ja.rdoc
 README.rdoc
 Rakefile
 demo/english_fonts.rb
+demo/japanese_encodings_euc_jp.rb
+demo/japanese_encodings_shift_jis.rb
 demo/japanese_fonts.rb
-demo/table.rb
+demo/table_old.rb
+demo/text_decoration.rb
 lib/prune.rb
 lib/prune/constants.rb
 lib/prune/document.rb
@@ -34,10 +37,6 @@ lib/prune/fonts/en/zapf_dingbats.rb
 lib/prune/fonts/ja/jp_default.rb
 lib/prune/fonts/ja/ms_gothic.rb
 lib/prune/functions.rb
-lib/prune/handlers/base.rb
-lib/prune/handlers/draw_handler.rb
-lib/prune/handlers/table_handler.rb
-lib/prune/handlers/text_handler.rb
 lib/prune/p_objects/base.rb
 lib/prune/p_objects/p_array.rb
 lib/prune/p_objects/p_dictionary.rb

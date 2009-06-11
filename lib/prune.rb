@@ -49,10 +49,6 @@ require "fonts/en/zapf_dingbats"
 require "fonts/base_ja"
 require "fonts/ja/ms_gothic"
 
-# handlers
-require "handlers/base"
-require "handlers/text_handler"
-
 # PDF document.
 require "document"
 
@@ -63,14 +59,18 @@ require "parsers/document/page_parser"
 require "parsers/document_parser"
 
 module Prune
-  def self.pdf(filename, &block)
+  def self.pdf(filename = nil, &block)
     unless /\.[pP][dD][fF]\z/ === filename
       filename += ".pdf"
     end
     @document = Document.new
     @document_parser = Parsers::DocumentParser.new(@document)
     @document_parser.instance_eval(&block)
+    if filename
+      @document.save_as(filename)
+    else
+      @document.to_s
+    end
     #puts @document.to_s
-    @document.save_as(filename)
   end
 end
