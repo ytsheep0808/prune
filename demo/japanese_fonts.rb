@@ -36,4 +36,20 @@ Prune.pdf("japanese_fonts.pdf"){
     div "ＭＳゴシック＋太字＋斜体"
     div sample, :font => {:italic => true}
   }
+
+  page(:A4W, :font => {:name => :ms_gothic, :bold => true, :size => 25}){
+    div "ＭＳ明朝"
+    div sample, :font => {:name => :ms_mincho, :bold => false}
+    br
+    div "ＭＳ明朝＋太字"
+    div sample, :font => {:name => :ms_mincho}
+  }
+
+  page(:A4W, :font => {:name => :ms_gothic, :bold => true, :size => 25}){
+    div "ＭＳ明朝＋斜体"
+    div sample, :font => {:name => :ms_mincho, :bold => false, :italic => true}
+    br
+    div "ＭＳ明朝＋太字＋斜体"
+    div sample, :font => {:name => :ms_mincho, :italic => true}
+  }
 }

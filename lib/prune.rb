@@ -48,6 +48,7 @@ require "fonts/en/times_roman"
 require "fonts/en/zapf_dingbats"
 require "fonts/base_ja"
 require "fonts/ja/ms_gothic"
+require "fonts/ja/ms_mincho"
 
 # PDF document.
 require "document"
