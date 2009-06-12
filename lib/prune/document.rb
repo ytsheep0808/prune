@@ -75,11 +75,11 @@ module Prune
       out = []
       id = Digest::MD5.hexdigest(rand.to_s)
       out << "trailer"
-      dict = pd!(
-        pn!(:Size) => (@elements.size + 1),
-        pn!(:Root) => @catalog.reference,
-        pn!(:Info) => @info.reference,
-        pn!(:ID) => pa!(ph!(id), ph!(id)))
+      dict = pd(
+        pn(:Size) => (@elements.size + 1),
+        pn(:Root) => @catalog.reference,
+        pn(:Info) => @info.reference,
+        pn(:ID) => pa(ph(id), ph(id)))
       out << dict.to_s
       out << "startxref"
       out << source.index("xref")

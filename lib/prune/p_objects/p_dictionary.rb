@@ -44,7 +44,7 @@ module Prune
 
       def keys
         keys = @dict.keys.sort_by{|key| key.to_s}
-        keys.unshift(pn!(:Type)) if keys.delete(pn!(:Type))
+        keys.unshift(pn(:Type)) if keys.delete(pn(:Type))
         keys
       end
 

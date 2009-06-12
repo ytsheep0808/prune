@@ -8,7 +8,7 @@ module Prune
           key = font_name
           key << "_bold" if bold?(options)
           key << "_italic" if italic?(options)
-          PObjects.pn!(key)
+          PObjects.pn(key)
         end
       end
 
@@ -16,13 +16,13 @@ module Prune
         super(document)
         self.name = self.class.key(options)
         if bold?(options) && italic?(options)
-          self.base_font = pn!("Courier-BoldOblique")
+          self.base_font = pn("Courier-BoldOblique")
         elsif bold?(options)
-          self.base_font = pn!("Courier-Bold")
+          self.base_font = pn("Courier-Bold")
         elsif italic?(options)
-          self.base_font = pn!("Courier-Oblique")
+          self.base_font = pn("Courier-Oblique")
         else
-          self.base_font = pn!(:Courier)
+          self.base_font = pn(:Courier)
         end
       end
 

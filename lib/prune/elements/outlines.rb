@@ -4,9 +4,9 @@ module Prune
     class Outlines < Base
       def initialize(document)
         super(document)
-        @content = pd!(
-          pn!(:Type) => pn!(:Outlines),
-          pn!(:Count) => 0)
+        @content = pd(
+          pn(:Type) => pn(:Outlines),
+          pn(:Count) => 0)
         register
       end
     end

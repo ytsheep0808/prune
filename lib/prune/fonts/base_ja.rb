@@ -22,16 +22,16 @@ module Prune
         # Font descriptor element.
         @descriptor_element = FontDescriptor.new(
           document,
-          pd!(
-            pn!(:Ascent) => 859,
-            pn!(:Descent) => -140,
-            pn!(:CapHeight) => 769,
-            pn!(:MissingWidth) => 500,
-            pn!(:FontBBox) => pa!(0, -136, 1000, 859)))
+          pd(
+            pn(:Ascent) => 859,
+            pn(:Descent) => -140,
+            pn(:CapHeight) => 769,
+            pn(:MissingWidth) => 500,
+            pn(:FontBBox) => pa(0, -136, 1000, 859)))
         # Font widths.
-        w = pa!(
+        w = pa(
           # Widths for fonts from CID:1 to 95 should be half sized.
-          1, pa!(
+          1, pa(
             500, 500, 500, 500, 500, 500, 500, 500, 500, 500,
             500, 500, 500, 500, 500, 500, 500, 500, 500, 500,
             500, 500, 500, 500, 500, 500, 500, 500, 500, 500,
@@ -43,7 +43,7 @@ module Prune
             500, 500, 500, 500, 500, 500, 500, 500, 500, 500,
             500, 500, 500, 500, 500),
           # Widths for fonts from CID:327 to 389 should be half sized.
-          327, pa!(
+          327, pa(
             500, 500, 500, 500, 500, 500, 500, 500, 500, 500,
             500, 500, 500, 500, 500, 500, 500, 500, 500, 500,
             500, 500, 500, 500, 500, 500, 500, 500, 500, 500,
@@ -54,31 +54,31 @@ module Prune
         # Font body element.
         @body_element = Font.new(
           document,
-          pd!(
-            pn!(:Subtype) => pn!(:CIDFontType0),
-            pn!(:CIDSystemInfo) => pd!(
-              pn!(:Registry) => pl!("Adobe"),
-              pn!(:Ordering) => pl!("Japan1"),
-              pn!(:Supplement) => 2),
-            pn!(:FontDescriptor) => @descriptor_element.reference,
+          pd(
+            pn(:Subtype) => pn(:CIDFontType0),
+            pn(:CIDSystemInfo) => pd(
+              pn(:Registry) => pl("Adobe"),
+              pn(:Ordering) => pl("Japan1"),
+              pn(:Supplement) => 2),
+            pn(:FontDescriptor) => @descriptor_element.reference,
             # Default width.
-            pn!(:DW) => 1000,
+            pn(:DW) => 1000,
             # Default width for vertical writing.
-            pn!(:DW2) => pa!(880, -1000),
+            pn(:DW2) => pa(880, -1000),
             # Widths.
-            pn!(:W) => w))
+            pn(:W) => w))
         # Main element.
         @main_element = Font.new(
           document,
-          pd!(
-            pn!(:Subtype) => pn!(:Type0),
-            pn!(:Encoding) => pn!("UniJIS-UCS2-H"),
-            pn!(:DescendantFonts) => pa!(@body_element.reference)))
+          pd(
+            pn(:Subtype) => pn(:Type0),
+            pn(:Encoding) => pn("UniJIS-UCS2-H"),
+            pn(:DescendantFonts) => pa(@body_element.reference)))
       end
 
       # Decode string.
       def decode(string)
-        ph!(string.toutf16.unpack("C*").collect{|c| "%02X" % c}.join)
+        ph(string.toutf16.unpack("C*").collect{|c| "%02X" % c}.join)
       end
 
       # Get width of the text.

@@ -5,7 +5,7 @@ describe Prune::PObjects::PStream do
   include Prune::PObjects
 
   before(:each) do
-    @stream = ps!
+    @stream = ps
   end
 
   it "should be correct length" do

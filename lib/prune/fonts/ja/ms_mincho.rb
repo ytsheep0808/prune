@@ -7,7 +7,7 @@ module Prune
           key = font_name
           key << "_bold" if bold?(options)
           key << "_italic" if italic?(options)
-          PObjects.pn!(key)
+          PObjects.pn(key)
         end
       end
 
@@ -15,7 +15,7 @@ module Prune
         super(document)
         self.name = self.class.key(options)
         if bold?(options) && italic?(options)
-          self.base_font = pn!("MS-Mincho,BoldItalic")
+          self.base_font = pn("MS-Mincho,BoldItalic")
           self.flags = calculate_flags(
             :fixed_pitch => true,
             :symbolic => true,
@@ -24,7 +24,7 @@ module Prune
           self.italic_angle = -11
           self.stem_v = 156
         elsif bold?(options)
-          self.base_font = pn!("MS-Mincho,Bold")
+          self.base_font = pn("MS-Mincho,Bold")
           self.flags = calculate_flags(
             :fixed_pitch => true,
             :symbolic => true,
@@ -32,7 +32,7 @@ module Prune
           self.italic_angle = 0
           self.stem_v = 156
         elsif italic?(options)
-          self.base_font = pn!("MS-Mincho,Italic")
+          self.base_font = pn("MS-Mincho,Italic")
           self.flags = calculate_flags(
             :fixed_pitch => true,
             :symbolic => true,
@@ -40,7 +40,7 @@ module Prune
           self.italic_angle = -11
           self.stem_v = 78
         else
-          self.base_font = pn!("MS-Mincho")
+          self.base_font = pn("MS-Mincho")
           self.flags = calculate_flags(
             :fixed_pitch => true,
             :symbolic => true)

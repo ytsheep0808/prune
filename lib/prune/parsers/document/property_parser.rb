@@ -36,7 +36,7 @@ module Prune
       def language(language)
         valid_langs = %W[en-US ja-JP]
         raise PdfLanguageError unless valid_langs.include?(language)
-        @document.catalog.lang = pl!(language)
+        @document.catalog.lang = pl(language)
       end
     end
   end

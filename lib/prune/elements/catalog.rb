@@ -6,35 +6,35 @@ module Prune
 
       def initialize(document)
         super(document)
-        @content = pd!(
-          pn!(:Type) => pn!(:Catalog),
-          pn!(:PageLayout) => pn!(:SinglePage),
-          pn!(:Lang) => pl!("ja-JP"),
-          pn!(:ViewerPreferences) => pd!(
-            pn!(:FitWindow) => true))
+        @content = pd(
+          pn(:Type) => pn(:Catalog),
+          pn(:PageLayout) => pn(:SinglePage),
+          pn(:Lang) => pl("ja-JP"),
+          pn(:ViewerPreferences) => pd(
+            pn(:FitWindow) => true))
         register
       end
 
       def outlines=(reference)
-        @content.update(pn!(:Outlines) => reference)
+        @content.update(pn(:Outlines) => reference)
       end
 
       def page_layout=(layout)
         if PAGE_LAYOUTS.include?(layout)
-          @content.update(pn!(:PageLayout) => layout)
+          @content.update(pn(:PageLayout) => layout)
         end
       end
 
       def lang=(lang)
-        @content[pn!(:Lang)] = lang
+        @content[pn(:Lang)] = lang
       end
 
       def version=(version)
-        @content[pn!(:Version)] = version
+        @content[pn(:Version)] = version
       end
 
       def pages=(pages)
-        @content[pn!(:Pages)] = pages
+        @content[pn(:Pages)] = pages
       end
     end
   end

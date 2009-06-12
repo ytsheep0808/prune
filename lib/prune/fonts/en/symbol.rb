@@ -6,7 +6,7 @@ module Prune
       class << self
         def key(options)
           FontOptionError if bold?(options) || italic?(options)
-          PObjects.pn!(font_name)
+          PObjects.pn(font_name)
         end
       end
 
@@ -42,7 +42,7 @@ module Prune
       def initialize(document, options = {})
         super(document)
         self.name = self.class.key(options)
-        self.base_font = pn!(:Symbol)
+        self.base_font = pn(:Symbol)
       end
 
       # Get width of the text.

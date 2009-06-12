@@ -8,7 +8,7 @@ module Prune
           key = font_name
           key << "_bold" if bold?(options)
           key << "_italic" if italic?(options)
-          PObjects.pn!(key)
+          PObjects.pn(key)
         end
       end
 
@@ -135,13 +135,13 @@ module Prune
         @bold = bold?(options)
         @italic = italic?(options)
         if @bold && @italic
-          self.base_font = pn!("Times-BoldItalic")
+          self.base_font = pn("Times-BoldItalic")
         elsif @bold
-          self.base_font = pn!("Times-Bold")
+          self.base_font = pn("Times-Bold")
         elsif @italic
-          self.base_font = pn!("Times-Italic")
+          self.base_font = pn("Times-Italic")
         else
-          self.base_font = pn!("Times-Roman")
+          self.base_font = pn("Times-Roman")
         end
       end
 

@@ -10,16 +10,16 @@ module Prune
         super(document)
         @main_element = Font.new(
           document,
-          pd!(
-            pn!(:Subtype) => pn!(:Type1),
-            pn!(:Encoding) => pn!(:StandardEncoding)))
+          pd(
+            pn(:Subtype) => pn(:Type1),
+            pn(:Encoding) => pn(:StandardEncoding)))
       end
 
       # Decode string.
       def decode(string)
         raise NonAsciiStringError unless
           Kconv.guess(string) == Kconv::ASCII
-        pl!(string)
+        pl(string)
       end
 
       private

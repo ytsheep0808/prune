@@ -6,14 +6,14 @@ module Prune
 
       def initialize(document)
         super(document)
-        @content = pd!(pn!(:Length) => 0)
-        @stream = ps!
+        @content = pd(pn(:Length) => 0)
+        @stream = ps
         register
       end
 
       def to_s
         # ストリーム長の更新
-        @content[pn!(:Length)] = @stream.length
+        @content[pn(:Length)] = @stream.length
         # 文字列の出力
         out = []
         out << "#{@element_id} #{@revision} obj"
