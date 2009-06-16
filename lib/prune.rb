@@ -49,6 +49,10 @@ require "fonts/en/zapf_dingbats"
 require "fonts/base_ja"
 require "fonts/ja/ms_gothic"
 require "fonts/ja/ms_mincho"
+require "fonts/ja/ms_p_gothic"
+require "fonts/ja/ms_p_mincho"
+require "fonts/ja/ms_pr_gothic"
+require "fonts/ja/ms_ui_gothic"
 
 # PDF document.
 require "document"
