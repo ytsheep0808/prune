@@ -18,6 +18,9 @@ module Prune
 
     # Invalid position.
     class InvalidPositionError < StandardError;end
+    # Invalid position operation.
+    class InvalidPositionOperationError < StandardError;end
+
     # Unexisting font.
     class UnexistingFontError < StandardError;end
     # Font not Specified.

@@ -3,6 +3,8 @@ module Prune
   module Parsers
     # Parser for directive "page".
     class PageParser < Base
+      attr_reader :builders
+
       FONT_OPTIONS = [
         :name, :bold, :italic, :size, :mode,
         :fill_color, :stroke_color
@@ -16,11 +18,18 @@ module Prune
         document_size = DOCUMENT_SIZES[size]
         # Create a new page.
         width, height = document_size.collect{|mm| Position.mm_to_pt(mm)}
-        @page = Page.new(@document, [0.0, 0.0, width, height])
+        @page = Page.new(@document, [0.0, 0.0, width, height], options)
         @stream = @page.stream
 
         # Add page to pages.
         @document.pages << @page
+
+        # Add builders.
+        @builders = {
+          :text  => Builders::TextBuilder.new(@page),
+          :shape => Builders::ShapeBuilder.new(@page),
+          :cell  => Builders::CellBuilder.new(@page),
+        }
 
         # Current variables will be set to this hash.
         @variables = {}

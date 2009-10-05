@@ -1,6 +1,11 @@
 # coding:utf-8
 module Prune
   class Position
+    include Errors
+
+    attr_reader :x
+    attr_reader :y
+
     class << self
       # Define position.
       def [](x, y)
@@ -16,8 +21,17 @@ module Prune
 
     # Initialize.
     def initialize(x, y)
+      raise InvalidPositionError unless x.is_a?(Numeric)
+      raise InvalidPositionError unless y.is_a?(Numeric)
       @x = mm_to_pt(x)
       @y = mm_to_pt(y)
+    end
+
+    # Plus.
+    def +(position)
+      raise InvalidPositionOperationError unless position.is_a?(self)
+      @x += position.x
+      @y += position.y
     end
 
     private

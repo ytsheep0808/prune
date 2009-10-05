@@ -2,6 +2,8 @@
 module Prune 
   module Elements
     class Page < Base
+      attr_accessor :position
+
       # Initialize.
       def initialize(document, media_box, options = {})
         super(document)
@@ -15,8 +17,8 @@ module Prune
           pn(:Contents) => @stream.reference,
           pn(:Resources) => pd(
             pn(:ProcSet) => @document.proc_set.reference))
-        # Set default position.
-        @pos = Position[5, 5]
+        # Set default position to [5.0 mm * 5.0 mm].
+        @position = Position[5.0, 5.0]
         # Register element to document.
         register
       end
