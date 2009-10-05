@@ -36,7 +36,9 @@ module Prune
       raise MalFormedDocumentError if @pages.empty?
       # Write to a file
       File.open(filename, "wb") do |file|
-        file.write self.to_s
+        file.flock(File::LOCK_EX)
+        file.write(self.to_s)
+        file.flock(File::LOCK_UN)
       end
     end
 

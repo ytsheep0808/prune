@@ -13,20 +13,22 @@ module Prune
     class MalFormedPageError < StandardError; end
     class UnknownPageError < StandardError; end
     class PositionFormatError < StandardError; end
-    # Invalid PDF version
+    # Invalid PDF version.
     class PdfVersionError < StandardError;end
 
-    # Unexisting font
+    # Invalid position.
+    class InvalidPositionError < StandardError;end
+    # Unexisting font.
     class UnexistingFontError < StandardError;end
-    # Font not Specified
+    # Font not Specified.
     class FontNotSpecifiedError < StandardError;end
-    # PDictionary can update with only PDictionary
+    # PDictionary can update with only PDictionary.
     class PDictionaryTypeError < StandardError;end
-    # PDictionary key should be PName
+    # PDictionary key should be PName.
     class PDictionaryKeyError < StandardError;end
     # PHexadecimalString's content should be a String.
     class PHexadecimalStringTypeError < StandardError;end
-    # PHexadeciamlString's content should consist of [0-9A-F]+
+    # PHexadeciamlString's content should consist of /[0-9A-F]+/.
     class PHexadecimalStringContentError < StandardError;end
     # PLiteralString's content should be a String.
     class PLiteralStringTypeError < StandardError;end
@@ -39,7 +41,7 @@ module Prune
     class FontOptionError < StandardError;end
     # Wrong flags for font descriptor.
     class FontDescriptorFlagError < StandardError;end
-    # Position error
+    # Position error.
     class PositionError < StandardError;end
     # Color error.
     class ColorError < StandardError;end

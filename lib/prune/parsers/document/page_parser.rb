@@ -15,7 +15,7 @@ module Prune
         raise DocumenteSizeError unless DOCUMENT_SIZES.has_key?(size)
         document_size = DOCUMENT_SIZES[size]
         # Create a new page.
-        width, height = document_size
+        width, height = document_size.collect{|mm| Position.mm_to_pt(mm)}
         @page = Page.new(@document, [0.0, 0.0, width, height])
         @stream = @page.stream
 

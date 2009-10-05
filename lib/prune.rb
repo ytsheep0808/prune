@@ -16,6 +16,8 @@ require "errors"
 
 # PDF functions.
 require "functions"
+# Position
+require "position"
 
 # PDF objects.
 require "p_objects/base"
@@ -25,6 +27,7 @@ require "p_objects/p_name"
 require "p_objects/p_stream"
 require "p_objects/p_array"
 require "p_objects/p_dictionary"
+require "p_objects/aliases"
 
 # PDF elements.
 require "elements/base"
@@ -65,17 +68,16 @@ require "parsers/document_parser"
 
 module Prune
   def self.pdf(filename = nil, &block)
-    unless /\.[pP][dD][fF]\z/ === filename
-      filename += ".pdf"
-    end
+    # Build document.
     @document = Document.new
     @document_parser = Parsers::DocumentParser.new(@document)
     @document_parser.instance_eval(&block)
-    if filename
+
+    unless filename.nil?
+      filename << ".pdf" unless /\.[pP][dD][fF]\z/ === filename
       @document.save_as(filename)
     else
       @document.to_s
     end
-    #puts @document.to_s
   end
 end

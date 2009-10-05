@@ -3,10 +3,9 @@ module Prune
   module Elements
     class Page < Base
       # Initialize.
-      def initialize(document, size)
+      def initialize(document, media_box)
         super(document)
         @stream = Stream.new(@document)
-        media_box = size.collect{|i| mm2pt(i)}
         @content = pd(
           pn(:Type) => pn(:Page),
           pn(:Parent) => @document.pages.reference,
@@ -42,46 +41,6 @@ module Prune
         unless @content[pn(:Resources)][pn(:Font)].has_key?(key)
           @content[pn(:Resources)][pn(:Font)].update(key => font.reference)
         end
-      end
-
-      # Write a table.
-      def table(widths, pos = @pos)
-        raise BlockNotGivenError unless block_given?
-        raise TableFormatError unless widths.is_a?(Array)
-        raise TableFormatError unless widths.size > 0
-        raise PositionFormatError unless pos.is_a?(Array)
-        raise PositionFormatError unless pos.size == 2
-        handler = TableHandler.new(self, widths.collect{|width| mm2pt(width)}, pos)
-        yield handler
-      end
-
-      private
-      # Draw with handler.
-      def draw(&block)
-        raise BlockNotGivenError unless block_given?
-        handler = DrawHandler.new(self)
-        stream << "q"
-        yield handler
-        stream << "Q"
-      end
-
-      # Draw a rectangle.
-      def draw_rect(pos, width, height, line_color = [0, 0, 0], line_width = 0.5)
-        orig_x = pos[0]
-        orig_y = pos[1]
-        dest_x = pos[0] + width
-        dest_y = pos[1] + height
-        draw{|handler|
-          handler.set_line_cap(:projecting_square_cap)
-          handler.set_line_width(line_width)
-          handler.set_line_color(line_color)
-          handler.move([orig_x, orig_y])
-          handler.line_to([dest_x, orig_y])
-          handler.line_to([dest_x, dest_y])
-          handler.line_to([orig_x, dest_y])
-          handler.line_to([orig_x, orig_y])
-          handler.stroke
-        }
       end
     end
   end
