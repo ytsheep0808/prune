@@ -12,9 +12,11 @@ module Prune
       def initialize(document, size, options = {})
         @document = document
         # Check document size.
-        raise DocumenteSizeError unless DOCUMENT_SIZE.has_key?(size)
+        raise DocumenteSizeError unless DOCUMENT_SIZES.has_key?(size)
+        document_size = DOCUMENT_SIZES[size]
         # Create a new page.
-        @page = Page.new(@document, DOCUMENT_SIZE[size])
+        width, height = document_size
+        @page = Page.new(@document, [0.0, 0.0, width, height])
         @stream = @page.stream
 
         # Add page to pages.
