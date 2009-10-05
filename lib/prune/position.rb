@@ -34,6 +34,11 @@ module Prune
       @y += position.y
     end
 
+    # Convert to String.
+    def to_s
+      "%.2f %.2f" % [@x, @y]
+    end
+
     private
     # Convert milli-meter to pt.
     def mm_to_pt(mm)

@@ -58,5 +58,15 @@ module Prune
     class TextAlignError < StandardError;end
     # Errors on options for border.
     class BorderOptionError < StandardError;end
+
+    #===========================================================================
+    # Errors for Builders
+    #===========================================================================
+    # Color format error.
+    class ColorFormatError < StandardError;end
+    # Shape argument error.
+    class ShapeArgumentError < StandardError;end
+    # Shape option error.
+    class ShapeOptionError < StandardError;end
   end
 end

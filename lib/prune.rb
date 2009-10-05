@@ -60,6 +60,12 @@ require "fonts/ja/ms_ui_gothic"
 # PDF document.
 require "document"
 
+# Builders.
+require "builders/base"
+require "builders/text_builder"
+require "builders/shape_builder"
+require "builders/cell_builder"
+
 # DSL parser.
 require "parsers/base"
 require "parsers/document/property_parser"
