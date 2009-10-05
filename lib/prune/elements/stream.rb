@@ -4,17 +4,22 @@ module Prune
     class Stream < Base
       attr_reader :stream
 
+      # Initialize.
       def initialize(document)
         super(document)
+        # Set dictionary.
         @content = pd(pn(:Length) => 0)
+        # Set stream.
         @stream = ps
+        # Register element to document.
         register
       end
 
+      # Convert stream to String.
       def to_s
-        # ストリーム長の更新
+        # Update length of the stream.
         @content[pn(:Length)] = @stream.length
-        # 文字列の出力
+        # Convert to String.
         out = []
         out << "#{@element_id} #{@revision} obj"
         out << @content.to_s

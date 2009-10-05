@@ -3,9 +3,11 @@ module Prune
   module Elements
     class Page < Base
       # Initialize.
-      def initialize(document, media_box)
+      def initialize(document, media_box, options = {})
         super(document)
+        # Set stream.
         @stream = Stream.new(@document)
+        # Set dictionary.
         @content = pd(
           pn(:Type) => pn(:Page),
           pn(:Parent) => @document.pages.reference,
@@ -13,6 +15,9 @@ module Prune
           pn(:Contents) => @stream.reference,
           pn(:Resources) => pd(
             pn(:ProcSet) => @document.proc_set.reference))
+        # Set default position.
+        @pos = Position[5, 5]
+        # Register element to document.
         register
       end
 

@@ -2,10 +2,13 @@
 module Prune 
   module Elements
     class FontDescriptor < Base
+      # Initialize.
       def initialize(document, options)
         super(document)
+        # Set dictionary.
         @content = pd(pn(:Type) => pn(:FontDescriptor))
         @content.update(options)
+        # Register element to document.
         register
       end
 

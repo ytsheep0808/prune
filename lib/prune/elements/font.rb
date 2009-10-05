@@ -2,10 +2,13 @@
 module Prune 
   module Elements
     class Font < Base
+      # Initialize.
       def initialize(document, options)
         super(document)
+        # Set dictionary.
         @content = pd(pn(:Type) => pn(:Font))
         @content.update(options)
+        # Register element to document.
         register
       end
 

@@ -6,6 +6,7 @@ module Prune
       include PObjects
       include Functions
 
+      # Initialize.
       def initialize(document)
         @document = document
         @element_id = 0
@@ -15,6 +16,7 @@ module Prune
         @registered = false
       end
 
+      # Convert element to String.
       def to_s
         raise ElementNotRegisteredError unless @registered
         out = []
@@ -24,11 +26,13 @@ module Prune
         return out.join(LF)
       end
 
+      # Get reference id of the element.
       def reference
         raise ObjectNotRegisteredError unless @registered
         "#{@element_id} #{@revision} R"
       end
 
+      # Register element to document.
       def register
         unless @registered
           @element_id = @document.elements.size + 1
@@ -38,6 +42,7 @@ module Prune
       end
 
       private
+      # Set text for "p" method.
       def inspect
         self.to_s
       end
