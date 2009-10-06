@@ -3,7 +3,10 @@ module Prune
   module Elements
     class Page < Base
       attr_reader :default_font
-      attr_accessor :position
+      attr_accessor :shape_ids
+      attr_accessor :shapes
+      attr_accessor :x
+      attr_accessor :y
       attr_accessor :current_font
 
       FONT_OPTIONS = [
@@ -30,11 +33,15 @@ module Prune
           pn(:Resources) => pd(
             pn(:ProcSet) => @document.proc_set.reference))
         # Set default position to [5.0 mm * 5.0 mm].
-        @position = Position[5.0, 5.0]
+        @x = 5.0
+        @y = media_box[3] - 5.0
+p media_box
+puts "x=%.2f y=%.2f" % [@x, @y]
         # Set page default font.
-        @current_font = {}
-        @default_font = {}
-        initialize_font(@default_font, @current_font, options)
+        initialize_font(options)
+        # Initialize page shapes.
+        @shape_ids = []
+        @shapes = {}
         # Register element to document.
         register
       end
@@ -44,12 +51,12 @@ module Prune
         @stream.stream
       end
 
-      # Get width of the page.
+      # Get width of the page(mm).
       def width
         @content[pn(:MediaBox)][2]
       end
 
-      # Get height of the page.
+      # Get height of the page(mm).
       def height
         @content[pn(:MediaBox)][3]
       end
@@ -68,21 +75,22 @@ module Prune
 
       private
       # Initialize font.
-      def initialize_font(default_font, current_font, options)
-        default_font.update(
+      def initialize_font(options)
+        @current_font = {}
+        @default_font = {
           :name => nil,
           :size => 12,
           :bold => false,
           :italic => false,
           :mode => :fill,
           :fill_color => "#000000",
-          :stroke_color => "#000000")
+          :stroke_color => "#000000"}
         # Set default and current font from options.
         if options.key?(:font)
           FONT_OPTIONS.each do |sym|
             if options[:font].key?(sym)
-              default_font[sym] = options[:font][sym]
-              current_font[sym] = default_font[sym]
+              @default_font[sym] = options[:font][sym]
+              @current_font[sym] = @default_font[sym]
             end
           end
         end

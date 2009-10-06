@@ -6,6 +6,8 @@ module Prune
       include PObjects
       include Functions
 
+      attr_reader :document
+
       # Initialize.
       def initialize(document)
         @document = document

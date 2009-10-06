@@ -9,7 +9,15 @@ module Prune
     class << self
       # Define position.
       def [](x, y)
-        self.new(x, y)
+        self.new(*x_y(x, y))
+      end
+
+      # Check and get x, y
+      def x_y(x, y)
+        [x, y].collect do |mm|
+          raise InvalidPositionError unless mm.is_a?(Numeric)
+          mm_to_pt(mm)
+        end
       end
 
       # Convert milli-meter to pt.
@@ -21,17 +29,24 @@ module Prune
 
     # Initialize.
     def initialize(x, y)
-      raise InvalidPositionError unless x.is_a?(Numeric)
-      raise InvalidPositionError unless y.is_a?(Numeric)
-      @x = mm_to_pt(x)
-      @y = mm_to_pt(y)
+      @x, @y = self.class.x_y(x, y)
     end
 
     # Plus.
     def +(position)
-      raise InvalidPositionOperationError unless position.is_a?(self)
+      raise InvalidPositionOperationError unless position.is_a?(Position)
       @x += position.x
       @y += position.y
+    end
+
+    # Update position.
+    def update(x, y)
+      @x, @y = self.class.x_y(x, y)
+    end
+
+    # Convert to Array.
+    def to_a
+      [@x, @y]
     end
 
     # Convert to String.

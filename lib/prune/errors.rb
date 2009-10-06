@@ -21,10 +21,6 @@ module Prune
     # Invalid position operation.
     class InvalidPositionOperationError < StandardError;end
 
-    # Unexisting font.
-    class UnexistingFontError < StandardError;end
-    # Font not Specified.
-    class FontNotSpecifiedError < StandardError;end
     # PDictionary can update with only PDictionary.
     class PDictionaryTypeError < StandardError;end
     # PDictionary key should be PName.
@@ -60,13 +56,20 @@ module Prune
     class BorderOptionError < StandardError;end
 
     #===========================================================================
-    # Errors for Builders
+    # Errors for Shapes
     #===========================================================================
+    class DuplicateIdError < StandardError;end
     # Color format error.
     class ColorFormatError < StandardError;end
-    # Shape argument error.
-    class ShapeArgumentError < StandardError;end
-    # Shape option error.
-    class ShapeOptionError < StandardError;end
+    # Line option error.
+    class LineOptionError < StandardError;end
+    # Rectangle option error.
+    class RectangleOptionError < StandardError;end
+    # Line style error.
+    class LineStyleError < StandardError;end
+    # Unexisting font.
+    class UnexistingFontError < StandardError;end
+    # Font not Specified.
+    class FontNotSpecifiedError < StandardError;end
   end
 end
