@@ -3,6 +3,7 @@ module Prune
   module Shapes
     class Base
       include Errors
+      include Functions
 
       attr_accessor :id
       attr_accessor :x
@@ -28,12 +29,6 @@ module Prune
         @page.shape_ids << @id
         @page.shapes.update(@id => self)
         self
-      end
-
-      private
-      # Milli-meter to pt.
-      def mm_to_pt(mm)
-        Position.mm_to_pt(mm)
       end
 
       private

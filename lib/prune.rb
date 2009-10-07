@@ -16,8 +16,6 @@ require "errors"
 
 # PDF functions.
 require "functions"
-# Position
-require "position"
 
 # PDF objects.
 require "p_objects/base"

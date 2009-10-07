@@ -33,7 +33,7 @@ module Prune
 
     # Save pdf document to a file.
     def save_as(filename)
-      raise MalFormedDocumentError if @pages.empty?
+      raise DocumentEmptyError if @pages.empty?
       # Write to a file
       File.open(filename, "wb") do |file|
         file.flock(File::LOCK_EX)

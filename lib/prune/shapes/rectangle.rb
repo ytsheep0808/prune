@@ -10,6 +10,11 @@ module Prune
       # Draw rectangle.
       def initialize(page, x, y, width, height, options = {})
         super(page)
+        # Check arguments.
+        raise RectangleArgumentError unless x.is_a?(Numeric)
+        raise RectangleArgumentError unless y.is_a?(Numeric)
+        raise RectangleArgumentError unless width.is_a?(Numeric)
+        raise RectangleArgumentError unless height.is_a?(Numeric)
         # Set instance variables.
         @id = options[:id] if options.key?(:id)
         @x = x
@@ -38,7 +43,7 @@ module Prune
         end
         # Draw boundary.
         unless @style == :none
-          raise LineStyleError unless STYLES.include?(@style)
+          raise RectangleStyleError unless STYLES.include?(@style)
           stream << "2 J"
           stream << "0 j"
           stream << STYLES[@style]

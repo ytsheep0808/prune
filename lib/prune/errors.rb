@@ -1,26 +1,9 @@
 # coding:utf-8
 module Prune
   module Errors
-    class UnknownEncodingError < StandardError; end
-    class ElementNotRegisteredError < StandardError; end
-    class BlockNotGivenError < StandardError; end
-    class TableFormatError < StandardError; end
-    class DocumentSizeError < StandardError; end
-    class ColorFormatError < StandardError; end
-
-
-    class MalFormedDocumentError < StandardError; end
-    class MalFormedPageError < StandardError; end
-    class UnknownPageError < StandardError; end
-    class PositionFormatError < StandardError; end
-    # Invalid PDF version.
-    class PdfVersionError < StandardError;end
-
-    # Invalid position.
-    class InvalidPositionError < StandardError;end
-    # Invalid position operation.
-    class InvalidPositionOperationError < StandardError;end
-
+    #===========================================================================
+    # Errors for PObjects
+    #===========================================================================
     # PDictionary can update with only PDictionary.
     class PDictionaryTypeError < StandardError;end
     # PDictionary key should be PName.
@@ -36,24 +19,20 @@ module Prune
     # PStream's content should be a String.
     class PStreamTypeError < StandardError;end
 
+    #===========================================================================
+    # Errors for Elements
+    #===========================================================================
+    class ElementNotRegisteredError < StandardError; end
+
+    #===========================================================================
+    # Errors for Fonts
+    #===========================================================================
     # Wrong options for font.
     class FontOptionError < StandardError;end
     # Wrong flags for font descriptor.
     class FontDescriptorFlagError < StandardError;end
-    # Position error.
-    class PositionError < StandardError;end
-    # Color error.
-    class ColorError < StandardError;end
-    # Font mode error.
-    class FontModeError < StandardError;end
     # Ascii font used for non-ascii string.
     class NonAsciiStringError < StandardError;end
-    # Hankaku katakana used for string.
-    class HankakuKatakanaError < StandardError;end
-    # Text align should be :left, :center, or :right.
-    class TextAlignError < StandardError;end
-    # Errors on options for border.
-    class BorderOptionError < StandardError;end
 
     #===========================================================================
     # Errors for Shapes
@@ -61,15 +40,33 @@ module Prune
     class DuplicateIdError < StandardError;end
     # Color format error.
     class ColorFormatError < StandardError;end
-    # Line option error.
-    class LineOptionError < StandardError;end
-    # Rectangle option error.
-    class RectangleOptionError < StandardError;end
+    # Line argument error.
+    class LineArgumentError < StandardError;end
     # Line style error.
     class LineStyleError < StandardError;end
+    # Rectangle argument error.
+    class RectangleArgumentError < StandardError;end
+    # Rectangle style error.
+    class RectangleStyleError < StandardError;end
     # Unexisting font.
     class UnexistingFontError < StandardError;end
     # Font not Specified.
     class FontNotSpecifiedError < StandardError;end
+    # Font mode error.
+    class FontModeError < StandardError;end
+    # Text align should be :left, :center, or :right.
+    class TextAlignError < StandardError;end
+
+    #===========================================================================
+    # Errors for Document
+    #===========================================================================
+    # Document has no pages.
+    class DocumentEmptyError < StandardError; end
+
+    #===========================================================================
+    # Errors for Parsers
+    #===========================================================================
+    # Invalid PDF version.
+    class PdfVersionError < StandardError;end
   end
 end

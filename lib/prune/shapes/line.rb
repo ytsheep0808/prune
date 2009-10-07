@@ -10,6 +10,11 @@ module Prune
       # Draw line.
       def initialize(page, from_x, from_y, to_x, to_y, options = {})
         super(page)
+        # Check arguments.
+        raise LineArgumentError unless from_x.is_a?(Numeric)
+        raise LineArgumentError unless from_y.is_a?(Numeric)
+        raise LineArgumentError unless to_x.is_a?(Numeric)
+        raise LineArgumentError unless to_y.is_a?(Numeric)
         # Set instance variables.
         @id = options[:id] if options.key?(:id)
         @x = from_x
