@@ -32,11 +32,9 @@ module Prune
           pn(:Contents) => @stream.reference,
           pn(:Resources) => pd(
             pn(:ProcSet) => @document.proc_set.reference))
-        # Set default position to [5.0 mm * 5.0 mm].
-        @x = 5.0
-        @y = media_box[3] - 5.0
-p media_box
-puts "x=%.2f y=%.2f" % [@x, @y]
+        # Set default position to [10.0 mm * 10.0 mm].
+        @x = 10.0
+        @y = media_box[3] - 10.0
         # Set page default font.
         initialize_font(options)
         # Initialize page shapes.

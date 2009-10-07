@@ -19,6 +19,7 @@ module Prune
       end
 
       protected
+      # Draw rectangle.
       def rect(x, y, width, height, options = {})
         rect = Shapes::Rectangle.new(@page, [x, y, width, height], options)
         rect.render
@@ -27,25 +28,19 @@ module Prune
 
       # Div tag.
       def div(string, options = {})
-        options[:width] = @page.width - 10.0
-        #boundary = text(string, options)
-        #@y = boundary[1] - boundary[3]
+        # Get width of the page(mm).
+        options[:width] = @page.width - (10.0 * 2)
         div = Shapes::TextBox.new(@page, string, options)
         div.render
-#        pos = div.pos(:left_bottom)
-#        @page.position.update(pos.x, pos.y)
-        lf
+        @page.y -= div.height
         div
       end
 
       # Span tag.
       def span(string, options = {})
-        #boundary = text(string, options)
-        #@x = boundary[0] + boundary[2]
         span = Shapes::TextBox.new(@page, string, options)
         span.render
         @page.x += span.width
-        #@page.position += Position[span.x, 0.0]
         span
       end
 
@@ -57,7 +52,7 @@ module Prune
       # Line feed.
       def lf(feed = 1)
         feed = 1 unless feed < 0
-        @page.x = 5.0
+        @page.x = 10.0
         font_size = @page.current_font[:size]
         feed.times do
           @page.y -= font_size + (font_size / 5)

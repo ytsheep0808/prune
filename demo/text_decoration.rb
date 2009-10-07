@@ -15,10 +15,10 @@ Prune.pdf("text_decoration.pdf"){
       :font => {:fill_color => "#0000FF"}
     div "赤で縁取られた文字",
       :font => {:mode => :stroke, :stroke_color => "#FF0000"}
-    div "緑で縁取られて内側が黄色の文字",
+    div "緑で縁取られて\n内側が黄色の文字",
       :font => {:mode => :fill_and_stroke,
         :stroke_color => "#00FF00", :fill_color => "#FFFF00"}
-    div "赤で縁取られて内側が青で太字、斜体な文字",
+    div "赤で縁取られて\n内側が青で太字、斜体な文字",
       :font => {:bold => true, :italic => true,
         :font_mode => :fill_and_stroke,
         :stroke_color => "#FF0000", :fill_color => "#0000FF"}

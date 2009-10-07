@@ -36,22 +36,6 @@ module Prune
         Position.mm_to_pt(mm)
       end
 
-      # Get position.
-      def position(pos)
-        case pos
-        when :left_top, :top_left
-          Position[@x, @y]
-        when :left_bottom, :bottom_left
-          Position[@x, @y - @height]
-        when :right_top, :top_right
-          Position[@x + @width, @y]
-        when :right_bottom, :bottom_right
-          Position[@x + @width, @y - @height]
-        else
-          raise PositionArgumentError
-        end
-      end
-
       private
       # Convert to String.
       def to_s

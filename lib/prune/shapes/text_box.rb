@@ -2,6 +2,9 @@
 module Prune
   module Shapes
     class TextBox < Base
+      attr_accessor :width
+      attr_accessor :height
+
       # Initialize.
       def initialize(page, string, options = {})
         super(page)
@@ -28,8 +31,8 @@ module Prune
         @font_size = @page.current_font[:size]
         # Text align.
         @text_align = options[:text_align] || :left
-        @width = get_width(string, @font, @font_size, options[:width])
-        @height = get_height(string, @font, @font_size, options[:height])
+        @width = get_width(@string, @font, @font_size, options[:width])
+        @height = get_height(@string, @font, @font_size, options[:height])
       end
 
       # Render shape.
@@ -37,8 +40,7 @@ module Prune
         # Define local variables.
         current_x = @x
         current_y = @y
-        boundary = [@x, @y, @width, -@height]
-p boundary
+        boundary = [@x, @y, @width, @height]
         # Render background color.
         render_background_color(boundary)
         # Render borders.
@@ -108,7 +110,8 @@ p boundary
       def render_background_color(boundary)
         color = @options[:background_color]
         return unless color
-        fill_rect = Rectangle.new(@page, boundary,
+        x, y, width, height = boundary
+        fill_rect = Rectangle.new(@page, x, y, width, height,
           :fill => true, :fill_color => color)
         fill_rect.render
       end
@@ -120,7 +123,9 @@ p boundary
         return if @options[:border_right]
         return if @options[:border_left]
         return if @options[:border_bottom]
-        border_rect = Rectangle.new(@page, boundary, @options[:border])
+        x, y, width, height = boundary
+        border_rect = Rectangle.new(@page, x, y, width, height,
+          @options[:border])
         border_rect.render
       end
 
@@ -128,9 +133,8 @@ p boundary
       def render_top_border(boundary)
         return unless @options[:border_top]
         x, y, width, height = boundary
-        from = Position[x, y]
-        to = Position[x + width, y]
-        line = Line.new(@page, from, to, @options[:border_top])
+        line = Line.new(@page, x, y, x + width, y,
+          @options[:border_top])
         line.render
       end
 
@@ -138,19 +142,17 @@ p boundary
       def render_left_border(boundary)
         return unless @options[:border_left]
         x, y, width, height = boundary
-        from = Position[x, y]
-        to = Position[x, y - height]
-        line = Line.new(@page, from, to, @options[:border_left])
+        line = Line.new(@page, x, y, x, y - height,
+          @options[:border_left])
         line.render
       end
 
       # Render right border.
       def render_right_border(boundary)
-        return unless @options[:border_top]
+        return unless @options[:border_right]
         x, y, width, height = boundary
-        from = Position[x + width, y]
-        to = Position[x + width, y - height]
-        line = Line.new(@page, from, to, @options[:border_right])
+        line = Line.new(@page, x + width, y, x + width, y - height,
+          @options[:border_right])
         line.render
       end
 
@@ -158,9 +160,8 @@ p boundary
       def render_bottom_border(boundary)
         return unless @options[:border_bottom]
         x, y, width, height = boundary
-        from = Position[x, y - height]
-        to = Position[x + width, y - height]
-        line = Line.new(@page, from, to, @options[:border_bottom])
+        line = Line.new(@page, x, y - height, x + width, y - height,
+          @options[:border_bottom])
         line.render
       end
 
@@ -169,24 +170,17 @@ p boundary
         return default_width unless default_width.nil?
         width = 0.0
         string.scan(/([^\n]*)\n/) do |token|
-p $0
-          token_width = font.width($0, font_size)
+          token_width = font.width(token[0], font_size)
           width = token_width if token_width > width
         end
         width += font_size / 10.0
-puts "w:#{width}"
-        width
       end
 
       # Get height.
       def get_height(string, font, font_size, default_height)
         return default_height unless default_height.nil?
-        height = (0..string.count("\n")).inject(0.0) do |result, item|
-          result + item
-        end
+        height = string.count("\n") * font_size
         height += font_size / 5.0
-puts "h:#{height}"
-height
       end
 
       # Get font mode.
