@@ -3,7 +3,7 @@
 base_dir = File.expand_path(File.join(File.dirname(__FILE__), ".."))
 
 namespace :prune do
-  desc "Update manifest file for prune"
+  desc "PRUNE:Update manifest file for prune"
   task :manifest do
     # get all files under base directory
     Dir.chdir(base_dir)
