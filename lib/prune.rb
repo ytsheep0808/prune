@@ -67,6 +67,8 @@ require "shapes/text_box"
 # DSL parser.
 require "parsers/base"
 require "parsers/document/property_parser"
+require "parsers/document/page/table/tr_parser"
+require "parsers/document/page/table_parser"
 require "parsers/document/page_parser"
 require "parsers/document_parser"
 

@@ -58,6 +58,12 @@ module Prune
           @page.y -= font_size + (font_size / 5)
         end
       end
+
+      # Table tag.
+      def table(options = {}, &block)
+        table_parser = TableParser.new(@page, options)
+        table_parser.instance_eval(&block)
+      end
     end
   end
 end
