@@ -17,15 +17,25 @@ module Prune
         @y = @table.page.y
         @width = 0.0
         @height = 0.0
+        @widths = options[:widths] || @table.options[:widths] || []
         # All td tags inside this tag.
         @tds = []
       end
 
       # Render td tags.
       def render
-        @tds.each do |td|
+        prev_td = nil
+        @tds.each_with_index do |td, index|
           # Set td height to highest.
           td.height = @height
+          # Set widths if options has :widths.
+          unless @widths[index].nil?
+            td.width = @widths[index]
+            unless prev_td.nil?
+              td.x = prev_td.x + prev_td.width
+            end
+          end
+          prev_td = td
           td.render
         end
       end
